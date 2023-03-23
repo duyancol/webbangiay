@@ -1,25 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import Navbar from './layout/Navbar';
 
+
+
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import Demo from './Demo';
+import AddProduct from './product/AddProduct';
+import EditProduct  from './product/EditProduct';
+import ViewProduct from './product/ViewProduct';
+import Header from './layout/Header';
+import Slideer from './layout/Slideer';
+import Footer from './layout/Footer';
+import Product from './layout/Product';
+
+import Search from './layout/Search';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+  
+      <Router>
+    
+        <Header/>   
+        <Navbar/>
+        <Slideer/>
+        <Product/>
+        <Footer/>
+        
+       
+      
+      </Router>
+
+      
     </div>
   );
 }
 
 export default App;
+
+
+
