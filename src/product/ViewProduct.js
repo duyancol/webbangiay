@@ -14,7 +14,7 @@ export default function ViewProduct() {
 
       },[])
       const loadProduct=async()=>{
-        const result=await axios.get(`http://localhost:8080/getProduct/${id}`)
+        const result=await axios.get(`http://localhost:8080/api/v1/auth/getProduct/${id}`)
         setUser(result.data)
       }
 

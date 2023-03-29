@@ -61,8 +61,8 @@ React.useEffect(
     // this useEffect will run once
     // similar to componentDidMount()
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const baseURL = "http://localhost:8080/get3ProductNew";
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const baseURL = "http://localhost:8080/api/v1/auth/get3ProductNew";
     const [rows, setRows] = useState([]);
     const [rowdata, setRowdata] = useState([]);
   
@@ -96,7 +96,7 @@ React.useEffect(
   
   
     useEffect(() => {
-      fetch("http://localhost:8080/get3ProductNew")
+      fetch("http://localhost:8080/api/v1/auth/get3ProductNew")
         .then(res => res.json())
         .then(
           (result) => {
@@ -113,7 +113,7 @@ React.useEffect(
         )
     }, [])
     const clickCart1=()=>{
-      fetch(`http://localhost:8080/getNext3Product/${count}/0`)
+      fetch(`http://localhost:8080/api/v1/auth/getNext3Product/${count}/0`)
       .then(res => res.json())
       .then(
         (result) => {
