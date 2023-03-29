@@ -31,13 +31,13 @@ console.log(test)
      loadUsers();
   },[])
   const loadUsers= async () =>{
-      const result=await axios.get("http://localhost:8080/api/v1/auth/students1");
+      const result=await axios.get("http://localhost:8080/students1");
      setUsers(result.data);
       
 
   };
   const deleteProduct= async (id) =>{
-    const result=await axios.delete(`http://localhost:8080/api/v1/auth/deleteProduct/${id}`);
+    const result=await axios.delete(`http://localhost:8080/deleteProduct/${id}`);
   loadUsers()
     
 
