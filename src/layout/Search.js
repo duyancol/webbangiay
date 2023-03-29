@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 export default function AutoCompleter() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const baseURL = "http://localhost:8080/api/v1/auth/students1";
+  const baseURL = "http://localhost:8080/students1";
   const [rows, setRows] = useState([]);
   const [rowdata, setRowdata] = useState([]);
 
