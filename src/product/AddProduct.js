@@ -18,7 +18,7 @@ export default function AddProduct() {
   }
   const onSupmit= async(e)=>{
     e.preventDefault();
-    await axios.post("http://localhost:8080/addproduct",user)
+    await axios.post("http://localhost:8080/api/v1/auth/addproduct",user)
     navigate("/")
   }
   return (
