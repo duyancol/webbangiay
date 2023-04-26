@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 import axios from "axios"
 
 import { useNavigate } from 'react-router-dom';
+import Header from "../layout/Header";
 export default function AddProduct() {
   let navigate=useNavigate();
   
@@ -23,6 +24,7 @@ export default function AddProduct() {
   }
   return (
     <div>
+    <Header></Header>
     Add product
     <form onSubmit={(e)=>onSupmit(e)}>
     <div className='mb-3'>

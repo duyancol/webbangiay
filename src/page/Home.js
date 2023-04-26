@@ -6,6 +6,9 @@ import Product from '../layout/Product';
 import MegaMenu from '../layout/MegaMenu';
 import Footer from '../layout/Footer';
 import Demo from '../Demo';
+import { Link } from 'react-router-dom';
+import '../css/style.css';
+import '../css/test.css';
 export default function Home() {
     const[users,setUsers]=useState([]);
     useEffect(()=>{
@@ -19,9 +22,12 @@ export default function Home() {
     };
   return (
     <>
-     <Header/>
+
+   
+     <Header />
      <MegaMenu></MegaMenu>
-     <Demo/>
+   
+   
     <Product/>
     <Footer></Footer>
     </>

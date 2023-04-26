@@ -162,8 +162,145 @@
 
 
 
+// import Alert from '@mui/material/Alert';
+// import Stack from '@mui/material/Stack';
+// import React, { Component,useState } from "react";
+// import axios from "axios";
+// import Home from "./Home";
+// import Header from "../layout/Header";
 
-import React, { Component } from "react";
+// import Product from '../layout/Product';
+// import MegaMenu from '../layout/MegaMenu';
+// import Footer from '../layout/Footer';
+// import { Link } from '@mui/material';
+
+
+
+
+
+// export default class Login extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             email: "",
+//             password: "",
+//             isLogin: localStorage.getItem("token")!=null,
+           
+//         }
+//     }
+  
+//     logout =()=>{
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("email");
+//         this.onLogout();
+//     }
+//     onLogout = ()=>{
+//         this.setState({isLogin : false})
+//     }
+
+//     handleChange = (e) => {
+//         this.setState({
+//             [e.target.name]: e.target.value,
+//         })
+//     }
+    
+//     login = () => {
+//         const {email, password} = this.state;
+
+//         axios(`http://localhost:8080/api/v1/auth/authenticate`, {
+//           method: "POST", 
+//           data: {
+//               email,
+//               password,
+//           }
+//         })
+          
+//         .then(response => {
+//             localStorage.setItem('token', response.data.token);
+//             localStorage.setItem('email', response.data.email);
+//             console.log(response);
+//             this.setState({isLogin : true})
+//         })
+//         .catch(error => {
+//             console.log(error)
+            
+//             document.getElementById("test").style.display="block"
+           
+               
+           
+//         })
+        
+//      }
+
+     
+     
+   
+     
+      
+
+  
+
+  
+
+//     render() {
+//         return (
+
+            
+//              < >
+            
+             
+//              {this.state.isLogin ? ( <div>  <Link className="btn btn-outline-success" type="submit" to="addProduct">Add Product</Link> <Header onLogout={this.onLogout}></Header>
+//              <MegaMenu></MegaMenu>< Product key={this.state.isLogin} onLogout={this.onLogout}/ >  </div> ): 
+             
+
+//              <>
+//              <Header/>
+//              <MegaMenu/>
+//             <div className="log">
+//                 <h3>Sign In</h3>
+//                 <div id='test'>
+//                 <Alert severity="error">This is an error {this.state.email} and password not value — check it out!</Alert>
+//                  </div>
+//                 <div className="form-group">
+//                     <label>Username</label>
+//                     <input type="email" className="form-control" placeholder="Enter username" name="email" value={this.state.email} onChange={this.handleChange} />
+//                 </div>
+
+//                 <div className="form-group">
+//                     <label>Password</label>
+//                     <input type="password" className="form-control" placeholder="Enter password" name="password" value={this.state.password} onChange={this.handleChange} />
+//                 </div>
+
+//                 <div className="form-group">
+//                     <div className="custom-control custom-checkbox">
+//                         <input type="checkbox" className="custom-control-input" id="customCheck1"  />
+//                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+//                     </div>
+//                 </div>
+
+//                 <button type="submit" className="btn btn-primary btn-block" onClick={this.login}>Submit</button>
+//                 <p className="forgot-password text-right">
+//                     Forgot <a href="#">password?</a>
+//                 </p>
+               
+//             </div>
+//             </>
+//           }
+//           <Footer></Footer>
+//             </>
+            
+//         );
+
+// }
+// } 
+
+import React,{useState} from 'react'
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
 import Home from "./Home";
 import Header from "../layout/Header";
@@ -171,100 +308,161 @@ import Header from "../layout/Header";
 import Product from '../layout/Product';
 import MegaMenu from '../layout/MegaMenu';
 import Footer from '../layout/Footer';
-import App from "../App";
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            isLogin: localStorage.getItem("token")!=null
-        }
+import { Link } from 'react-router-dom';
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+export default function Login() {
+  const [open, setOpen] = React.useState(false);
+  const [openSucess, setOpenSucess] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
     }
-    logout =()=>{
+
+    setOpen(false);
+  };
+  
+  const handleOpen = () => {
+    setOpenSucess(true);
+  };
+  const handleCloseS = () => {
+    setOpenSucess(false);
+  };
+    const[user,setUser]=useState({
+        email:"",
+        password : "",
+        isLogin: localStorage.getItem("token")!=null
+    
+      });
+    //   const{email,password,isLogin}=user
+        const  logout =()=>{
         localStorage.removeItem("token");
+        localStorage.removeItem("nameuser");
         this.onLogout();
     }
-    onLogout = ()=>{
-        this.setState({isLogin : false})
+    const onLogout = ()=>{
+        setUser({isLogin : false})
     }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
+    // const handleChange = (e) => {
+    //     setUser({
+    //         [e.target.name]: e.target.value,
+    //     })
+    // }
+    const{email,password,isLogin}=user
+  const onInputChange=(e)=>{
+    setUser({...user,[e.target.name]:e.target.value});
 
-    login = () => {
-        const {email, password} = this.state;
+  }
+  
+    const login = () => {
+      handleOpen()
 
         axios(`http://localhost:8080/api/v1/auth/authenticate`, {
           method: "POST", 
           data: {
-              email,
-              password,
+              email :email,
+              password :password
           }
         })
+          
         .then(response => {
+          
             localStorage.setItem('token', response.data.token);
-            console.log(response);
-            this.setState({isLogin : true})
+            localStorage.setItem('nameuser', response.data.lastname + response.data.firstname);
+           
+            setUser({isLogin : true})
         })
         .catch(error => {
+          handleCloseS();
+          handleClick();
             console.log(error)
+            
+            
+           
+           
+               
+           
         })
         
      }
 
-   
-
-
-    render() {
-        return (
-
+  return (
+    <div>
+                   < >
             
-             < >
              
-             
-             {this.state.isLogin ? (<div><Header onLogout={this.onLogout}></Header>
-             <MegaMenu></MegaMenu>< Product key={this.state.isLogin} onLogout={this.onLogout}/ >  {localStorage.getItem("token")}</div> ): 
+             {isLogin ? ( <div>   
+             < Home key={isLogin} onLogout={onLogout}/ >  </div> ): 
              
 
              <>
              <Header/>
              <MegaMenu/>
-            <div className="log">
-                <h3>Sign In</h3>
+             <div className='    wapper ' >
+            
+            <div className="login rounder">
+                <span className='p'>Sign In</span>
                 
-                <div className="form-group">
-                    <label>Username</label>
-                    <input type="email" className="form-control" placeholder="Enter username" name="email" value={this.state.email} onChange={this.handleChange} />
-                </div>
-
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" name="password" value={this.state.password} onChange={this.handleChange} />
-                </div>
-
-                <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1"  />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                
+                <Stack spacing={2} sx={{ width: '100%' }}>
+                
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                  <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                  This is Email or Pass error message!
+                  </Alert>
+                </Snackbar>
+               
+               
+              </Stack>
+                
+                
+                <div className="form-group mb-2 was-validated">
+                    <label htmlFor='email' className='form-label'>Email :</label>
+                    <input type="email" className="form-control" required placeholder="Enter username" name="email" value={email} onChange={(e)=>onInputChange(e)} />
+                    <div className='invalid-feedback'>
+                    Please Enter you password
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block" onClick={this.login}>Submit</button>
+                <div className="form-group mb-2 was-validated">
+                    <label className='form-label' htmlFor='password'>Password</label>
+                    <input type="password" className="form-control" required placeholder="Enter password" name="password" value={password} onChange={(e)=>onInputChange(e)} />
+                </div>
+
+                <div className="form-group mb-2">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1"  />
+                        <label className="custom-control-label " htmlFor="check  ">Remember me</label>
+                    </div>
+                
+                </div>
+                <button type="submit" className="btn btn-outline-success" onClick={login}>Submit</button>
+                
                 <p className="forgot-password text-right">
                     Forgot <a href="#">password?</a>
                 </p>
-               
+                <Button onClick={handleOpen}>Show backdrop</Button>
+                <Backdrop
+                  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  open={openSucess}
+                  onClick={handleCloseS}
+                >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
             </div>
+            </div>
+
             </>
           }
-          <Footer></Footer>
+         
             </>
-            
-        );
-
+    </div>
+  )
 }
-} 
+
+

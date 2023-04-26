@@ -1,0 +1,93 @@
+.positioner {
+	position: relative;
+	display: inline-block;
+	line-height: 0;
+}
+
+.starbox .colorbar,
+.starbox .ghost {
+	z-index: 0;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	
+}
+
+.starbox .stars {
+	display: inline-block;
+}
+
+.starbox .stars .star_holder {
+	position: relative;
+	z-index: 1;
+}
+
+.starbox .stars .star_holder .star {
+	display: inline-block;
+	vertical-align: baseline;
+	background-repeat: no-repeat;
+}
+
+
+/* Override with your own image and size… */
+.starbox .stars .star_holder .star {
+	background-image: url('https://raw.githubusercontent.com/sabberworm/jStarbox/master/images/5-small.png');
+	width:24px;
+	height:24px;
+	border-radius: 10px;
+	margin: 2px;
+	
+
+}
+.starbox{
+	float:left;
+}
+.block span{
+	color: #A5A5A5;
+	float: left;
+	margin: 0 0 0 0.5em;
+	font-size: 0.875em;
+}
+/* Override with your own colours… */
+.starbox .stars { background: #cccccc; border-radius: 5px; box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
+ }
+.starbox .rated .stars { background: #dcdcdc; border-radius: 5px; box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}
+.starbox .rated.hover .stars { background: #cccccc;border-radius: 5px;  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}
+.starbox .colorbar { background: #fec701;border-radius: 5px;  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}
+.starbox .hover .colorbar { background: #fec701;  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}
+.starbox .rated .colorbar { background: #64b2ff;  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}
+.starbox .rated.hover .colorbar { background: #FFD596; box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px); }
+.starbox .ghost { background: #a1a1a1;  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
+	border-left: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);}

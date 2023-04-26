@@ -110,8 +110,10 @@ body{
 	 width: 100%;
   } */
 .top-header-center{
+	display:flex ;
+	justify-content: center;
 	float: left;
-	width: 80%;
+	width: 60%;
 	padding: 0.25em;
 	padding: 0.4em;
 }
@@ -2835,3 +2837,5 @@ span.mail a:hover{
 		padding: 0 1em 1em 1em;
 	}
 }
+
+  
