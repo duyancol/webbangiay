@@ -4,20 +4,7 @@
 //     // const[state,setState]=useState([]);
 //     var th=localStorage.getItem("token");
    
-//     const clickCart=()=>{
-       
-        
-//           if(document.getElementById('cart').style.display.endsWith("none")){
-//             document.getElementById('cart').style.display="block";
-//           }else{
-//             document.getElementById('cart').style.display="none";
-//           }
-          
-       
-           
-       
-       
-//     }
+
 //     const logout =()=>{
 //       localStorage.removeItem("token");
 //      this.props.onLogout();
@@ -119,34 +106,123 @@
 //     </div>
 //   )
 // }
-import React, { Component } from "react";
+// import React, { Component } from "react";
 
 
-export default class Login extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-          email: "",
-          password: "",
-          isLogin: localStorage.getItem("token")!=null
-      }
-  }
-      logout =()=>{
-      localStorage.removeItem("token");
-     this.props.onLogout();
-  }
-  
+// export default class Login extends Component {
+//   constructor(props) {
+//       super(props);
+//       this.state = {
+//           email: "",
+//           password: "",
+//           isLogin: localStorage.getItem("token")!=null
+//       }
+//   }
+//       logout =()=>{
+//       localStorage.removeItem("token");
+//   }
+   //   this.props.onLogout();
+//  
 
-   th=localStorage.getItem("token");
-
+//    th=localStorage.getItem("token");
+//    themail=localStorage.getItem("email");
  
 
 
-  render() {
-      return (
+//   render() {
+//       return (
 
           
-              <div>
+//               <div>
+   
+    
+//     <div className="header">
+    
+//     <div className="top-header">
+//         <div className="wrap">
+//             <div className="top-header-left" >
+//                 <ul>
+                    
+                    
+//                     <li><a className="cart" href="#"  ><span id="clickme" >  </span></a></li>
+                   
+//                     <div id="cart">Your Cart is Empty <span>(0)</span></div>
+                    
+//                     <li><a className="info" href="#"><span> </span></a></li>
+//                 </ul>
+//             </div>
+//             <div className="top-header-center">
+//                 <div className="top-header-center-alert-left">
+//                     <h3>FREE DELIVERY</h3>
+//                 </div>
+//                 <div className="top-header-center-alert-right">
+//                     <div className="vticker">
+//                       <ul>
+//                           <li>Applies to orders of $50 or more. <label>Returns are always free.</label></li>
+//                       </ul>
+//                     </div>
+//                 </div>
+//                 <div className="clear"> </div>
+//             </div>
+//             <div className="top-header-right">
+//                 <ul>
+//                 {this.th!=null ?  ( <li><a href="login.html">{this.themail}</a> <button onClick={this.logout}>logout</button><span> </span></li>) :
+//                 <li><a href="login">Login</a><span></span></li>
+//               }
+//                     <li><a href="register.html">Join</a></li>
+//                 </ul>
+//             </div>
+//             <div className="clear"> </div>
+//         </div>
+//     </div>
+//     </div>
+   
+//     </div>
+          
+//       );
+
+// }
+// } 
+import React,{useState} from 'react'
+import Login from '../page/Login';
+import { Link } from 'react-router-dom';
+export default function Header() {
+    const[user,setUser]=useState({
+        email:"",
+        img : "",
+        isLogin: localStorage.getItem("token")!=null
+    
+      });
+      const  logout =()=>{
+      localStorage.removeItem("token");
+      localStorage.removeItem("nameuser");
+      
+      onLogout();
+    }
+    const onLogout = ()=>{
+        setUser({isLogin : false})
+    }
+        const clickCart=()=>{
+       
+        
+          if(document.getElementById('cart').style.display.endsWith("none")){
+            document.getElementById('cart').style.display="block";
+          }else{
+            document.getElementById('cart').style.display="none";
+          }
+          
+       
+           
+       
+       
+    }
+
+    const th=localStorage.getItem("token");
+    const  themail=localStorage.getItem("nameuser");
+
+ 
+  return (
+                 <div>
    
     
     <div className="header">
@@ -157,9 +233,11 @@ export default class Login extends Component {
                 <ul>
                     
                     
-                    <li><a className="cart" href="#"  ><span id="clickme" >  </span></a></li>
+                    <li><a className="cart"   onClick={clickCart}><span id="clickme" >  </span></a></li>
                    
-                    <div id="cart">Your Cart is Empty <span>(0)</span></div>
+                    <div id="cart">Your Cart is Empty <span>(0) 
+                    <Link className="btn btn-outline-success" type="submit" to="cart">Seen</Link>
+                    </span></div>
                     
                     <li><a className="info" href="#"><span> </span></a></li>
                 </ul>
@@ -178,11 +256,12 @@ export default class Login extends Component {
                 <div className="clear"> </div>
             </div>
             <div className="top-header-right">
+           
                 <ul>
-                {this.th!=null ?  ( <li><a href="login.html">{this.th}</a> <button onClick={this.logout}>logout</button><span> </span></li>) :
-                <li><a href="login">Login</a><span></span></li>
+                {th!=null ?  ( <li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
+                <li> <Link className="btn btn-outline-secondary " type="submit" to="login">Login</Link> <span> </span>  <li><a href="register.html">Join</a></li></li>
               }
-                    <li><a href="register.html">Join</a></li>
+                   
                 </ul>
             </div>
             <div className="clear"> </div>
@@ -191,8 +270,5 @@ export default class Login extends Component {
     </div>
    
     </div>
-          
-      );
-
+  )
 }
-} 

@@ -19,13 +19,27 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-
+import { Link, useParams } from 'react-router-dom';
 
 export default function Product() {
   const [loading, setLoading] = React.useState(false);
 const [query, setQuery] = React.useState('idle');
 const timerRef = React.useRef();
-
+const addCart=()=>{
+  fetch(`http://localhost:8080/api/v1/auth/addCart?id=3`)
+  .then(res => res.json())
+  .then(
+    (result) => {
+     console.log(result)
+    },
+    // Note: it's important to handle errors here
+    // instead of a catch() block so that we don't swallow
+    // exceptions from actual bugs in components.
+    (error) => {
+      // setIsLoaded(true);
+      // setError(error);
+    }
+  )}
 React.useEffect(
   () => () => {
     clearTimeout(timerRef.current);
@@ -43,6 +57,22 @@ React.useEffect(
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         clickCart1()
+      }
+    
+      if (query !== 'idle') {
+        setQuery('idle');
+        return;
+      }
+    
+      setQuery('progress');
+      timerRef.current = window.setTimeout(() => {
+        setQuery('success');
+      }, 2000);
+    };
+    const handleClickQuery1 = (id) => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        clickCart2(id)
       }
     
       if (query !== 'idle') {
@@ -128,10 +158,32 @@ React.useEffect(
           setError(error);
         }
       )}
+      const clickCart2=(id)=>{
+        fetch(`http://localhost:8080/api/v1/auth/addCart?id=1`,{
+          method: "POST"
+        })
+        
+        
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result)
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        )}
+        
   return (
     
     <div>
-    <div className='search'><Autocomplete
+   
+    <div className='search'>
+    <Autocomplete
     disablePortal
     id="combo-box-demo"
     options={rows}
@@ -212,7 +264,7 @@ React.useEffect(
                    
                     <>
       {rows ? (
-        <Card >
+        < >
          
            
           
@@ -226,6 +278,7 @@ React.useEffect(
                     .map((row) => {
                       return (
                         <div onclick="location.href='details.html';" className="product-grid count">
+                        <Link className='btn btn-primary' to={`/products/${row.id}`}>seen</Link>
                         <div className="product-grid-head">
                             <ul className="grid-social">
                                 <li><a className="facebook" href="#"><span> </span></a></li>
@@ -256,11 +309,14 @@ React.useEffect(
                         <div className="more-product-info">
                             <span> </span>
                         </div>
+
+                        
                     </div>
                          
                        
                       );
                     })}
+                   
                 </div>
              
             <TablePagination
@@ -273,7 +329,7 @@ React.useEffect(
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           
-        </Card>
+        </>
       ) : (
         <h3>Loading...</h3>
       )}
