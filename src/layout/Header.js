@@ -186,12 +186,15 @@
 import React,{useState} from 'react'
 import Login from '../page/Login';
 import { Link } from 'react-router-dom';
-export default function Header() {
+export default function Header({cartItemCount}) {
+  
+ 
+
     const[user,setUser]=useState({
         email:"",
         img : "",
-        isLogin: localStorage.getItem("token")!=null
-    
+        isLogin: localStorage.getItem("token")!=null,
+       
       });
       const  logout =()=>{
       localStorage.removeItem("token");
@@ -228,14 +231,15 @@ export default function Header() {
     <div className="header">
     
     <div className="top-header">
+   
         <div className="wrap">
             <div className="top-header-left" >
                 <ul>
                     
                     
-                    <li><a className="cart"   onClick={clickCart}><span id="clickme" >  </span></a></li>
+                    <li><a className="cart"   onClick={clickCart}><span id="clickme" >  </span></a></li><span className='countcart'>{cartItemCount+""}</span>
                    
-                    <div id="cart">Your Cart is Empty <span>(0) 
+                    <div id="cart">Your Cart is Empty <span>( {cartItemCount+""}) 
                     <Link className="btn btn-outline-success" type="submit" to="cart">Seen</Link>
                     </span></div>
                     

@@ -10,10 +10,14 @@ import gifFile from '../images/nike-zoom.gif';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import MegaMenu from '../layout/MegaMenu';
-function ProductDetail(props) {
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleClick}) {
   const [product, setProduct] = useState({});
   const { id } = useParams();
-
+  
   useEffect(() => {
     fetch(`http://localhost:8080/api/v1/auth/getProduct/${id}`)
       .then(res => res.json())
@@ -31,7 +35,18 @@ function ProductDetail(props) {
 
   return (
     <div >
-    <Header />
+    <Header cartItemCount={cartItemCount} />
+    <Stack spacing={2} sx={{ width: '100%' }}>
+
+    
+    
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        Add to cart success !
+      </Alert>
+    </Snackbar>
+    
+  </Stack>
      <MegaMenu></MegaMenu>
     <Helmet>
   <link
@@ -70,7 +85,7 @@ function ProductDetail(props) {
           </span>
           <br />
           <br />
-          <a className="button-cart" onClick={() => props.onAddToCart(product)}>Add to cart</a> &nbsp;
+          <a className="button-cart" onClick={() => onAddToCart(product)}>Add to cart</a> &nbsp;
           &nbsp;
           <Link className="wishlist" to="/">Add to wishlist</Link>
         </div>
@@ -85,6 +100,7 @@ function ProductDetail(props) {
       controlsList="nodownload"
       poster={gifFile}
     />
+   
     
     <Footer></Footer>
     </div>

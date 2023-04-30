@@ -2838,4 +2838,38 @@ span.mail a:hover{
 	
 }
 
+  .countcart{
+	background-color: red;
+	padding: 5px;
+	width: 40px;
+	height: 20px;
+	border-radius: 50%;
+	color: white;
+	font-weight: bold;
+
+  }
+  .h1c{
+	font-weight: bold;
+	font-size: 40px;
+	margin: 40px;
+  }
+  .h2c{
+	margin-left: 50px;
+  }
+  .center_c{
+	max-width: 70%;
+	margin-left: 100px;
+  }
+  .shopping{
+	border-radius: 50%;
+	margin-left: 5%;
+  }
+  .product-pic a{
+	margin: 20px 0px;
+	font-weight: bold;
+	font-size: 30;
+  }
   
+  .block .starbox{
+	margin: 15px 5px;
+  }

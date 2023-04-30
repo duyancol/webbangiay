@@ -24,15 +24,38 @@ import ListProduct from './addToCart/ListProduct';
 import Cart from './addToCart/Cart';
 import ProductDetail from './addToCart/ProductDetail';
 import ProductList from './addToCart/ProductList ';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import OrderHistory from './page/OrderHistory';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function App() {
+  const [cartItemCount, setCartItemCount] = useState(0);
   const[user,setUser]=useState({
-    isLogin: localStorage.getItem("token")!=null
+    isLogin: localStorage.getItem("token")!=null,
+    
   });
   const onLogout = ()=>{
     setUser({isLogin : false})
 }
+const [open, setOpen] = React.useState(false);
 
+const handleClick = () => {
+  setOpen(true);
+};
+
+const handleClose = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpen(false);
+};
 const [products, setProducts] = useState([]);
 const [cart, setCart] = useState([]);
 const [cartItems, setCartItems] = useState([]);
@@ -49,7 +72,11 @@ const [oder, setOrder] = useState(
   }
 
 );
+const [oderNew, setOderNew] = useState(null);
 
+const handleOderNew = (newOder) => {
+  setOderNew(newOder);
+};
   useEffect(() => {
     const cartItemsFromStorage = localStorage.getItem('cartItems');
     if (cartItemsFromStorage) {
@@ -60,7 +87,9 @@ const [oder, setOrder] = useState(
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
+
   const handleAddToCart = product => {
+   
     const existingCartItem = cartItems.find(item => item.id === product.id);
     if (existingCartItem) {
       setCartItems(prevCartItems => {
@@ -69,107 +98,62 @@ const [oder, setOrder] = useState(
             return { ...item, quantity: item.quantity + 1 };
           }
           return item;
+          
         });
         return newCartItems;
+
         alert("Da them vao gio hang !");
+        
       });
     } else {
       setCartItems(prevCartItems => [
         ...prevCartItems,
-        { ...product, quantity: 1 },
+        { ...product, quantity: 1, },
+       
+       
       ]);
-      alert("Da them vao gio hang !");
+      
+      setCartItemCount(prevCount => prevCount + 1);
+      handleClick()
+      
     }
   
   };
    const handleRemoveCartItem = product => {
   setCartItems(prevCartItems =>
     prevCartItems.filter(item => item.id !== product.id)
+    
   );
+  setCartItemCount(prevCount => prevCount - 1);
 };
-//   const saveCart = () => {
-//     axios.post("http://localhost:8080/api/v1/auth/save", cart)
-//       .then((response) => {
-//         console.log(response.data);
-//         alert("Đã lưu giỏ hàng thành công!");
-//         localStorage.removeItem("cart")
-//         setCart([]);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         alert("Lưu giỏ hàng thất bại!");
-//       });
-//   };
-//   const handleRemoveProduct = (id) => {
-//     const updatedCartItems = cart.filter(item => item.id !== id);
-//     setCart(updatedCartItems);
-//     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
-//   }
-//   const addToCart = (product) => {
-//     const newCart = [...cart];
-//     const itemIndex = newCart.findIndex(item => item.id === product.id);
-//     if (itemIndex < 0) {
-//       newCart.push({ ...product, quantity: 1 });
-//     } else {
-//       newCart[itemIndex].quantity += 1;
-//     }
-//     localStorage.setItem('cart', JSON.stringify(newCart));
-//     // const savedCart = localStorage.getItem('cart');
-//     // if (savedCart) {
-//     //   setCart(JSON.parse(savedCart));
-//     // }
-//      setCart(newCart);
-//   };
-//   useEffect(() => {
-//     const savedCart = localStorage.getItem('cart');
-//     if (savedCart) {
-//       setCart(JSON.parse(savedCart));
-//     } else {
-//       setCart([]);
-//     }
-//   }, []);
-// const[user,setUser]=useState({
-//   email:"",
-//   img : "",
-//   isLogin: localStorage.getItem("token")!=null
+const getTotalPrice = () => {
+  let totalPrice = 0;
+  cartItems.forEach(item => {
+    totalPrice += item.price * item.quantity;
+  });
+  return totalPrice;
+}
+;
 
-// });
-// const  logout =()=>{
-// localStorage.removeItem("token");
-
-// onLogout();
-// }
-// const onLogout = ()=>{
-//   setUser({isLogin : false})
-// }
-// const addToCart1 = (product) => {
-//   const newCartItems = [...cartItems];
-//   const existingCartItem = newCartItems.find((item) => item.id === product.id);
-//   if (existingCartItem) {
-//     existingCartItem.quantity++;
-//   } else {
-//     newCartItems.push({ ...product, quantity: 1 });
-//   }
-//   setCartItems(newCartItems);
-// };
   return (
     
     <div className="App" key={user.isLogin}>  
+   
       <Router>
       
         <Routes>
-          
-          <Route exact path='/' element={<Home/> }> </Route>
+        
+          <Route exact path='/' element={<Home cartItemCount={cartItemCount}/> }> </Route>
           <Route className="node"  path='/getProduct/:id' element={<ViewProduct />}></Route>
-          <Route exact path='/login' element={<Login/>}> </Route>
+          <Route exact path='/login' element={<Login cartItemCount={cartItemCount}/>}> </Route>
           <Route exact path='/addProduct' element={<AddProduct/>}></Route>
          
          
-          <Route className="node" exact path='/getProduct/:id' element={<ViewProduct/>}></Route>
+          <Route className="node" exact path='/getProduct/:id' element={<ViewProduct />}></Route>
          
+          <Route exact path='/order/:iduser' element={<OrderHistory/>}></Route>
           
-          
-          <Route path="/products/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
+          <Route path="/products/:id" element={<ProductDetail  onAddToCart={handleAddToCart} cartItemCount={cartItemCount}  open={open} handleClose={handleClose} Alert={Alert} handleClick={handleClick} />} />
           <Route exact path='/detailProduct/:id' element={<DetailProduct/>}></Route>
           <Route exact path='/editProduct/:id' element={<EditProduct/>}></Route>
           <Route path="/cart" element={
@@ -177,6 +161,9 @@ const [oder, setOrder] = useState(
                   onRemoveCartItem={handleRemoveCartItem}
                   onsetCart={setCartItems}
                   oder={oder}
+                  cartItemCount={cartItemCount}
+                  getTotalPrice={getTotalPrice()}
+                  setCartItemCount={setCartItemCount}
                    />
                  
                 } />
