@@ -312,7 +312,7 @@ import { Link } from 'react-router-dom';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-export default function Login() {
+export default function Login({cartItemCount}) {
   const [open, setOpen] = React.useState(false);
   const [openSucess, setOpenSucess] = React.useState(false);
   const handleClick = () => {
@@ -342,6 +342,7 @@ export default function Login() {
         const  logout =()=>{
         localStorage.removeItem("token");
         localStorage.removeItem("nameuser");
+        localStorage.removeItem("id");
         this.onLogout();
     }
     const onLogout = ()=>{
@@ -374,7 +375,7 @@ export default function Login() {
           
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('nameuser', response.data.lastname + response.data.firstname);
-           
+            localStorage.setItem('id', response.data.id);
             setUser({isLogin : true})
         })
         .catch(error => {
@@ -397,11 +398,11 @@ export default function Login() {
             
              
              {isLogin ? ( <div>   
-             < Home key={isLogin} onLogout={onLogout}/ >  </div> ): 
+             < Home cartItemCount={cartItemCount} key={isLogin} onLogout={onLogout}/ >  </div> ): 
              
 
              <>
-             <Header/>
+             <Header cartItemCount={cartItemCount}/>
              <MegaMenu/>
              <div className='    wapper ' >
             

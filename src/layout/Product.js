@@ -21,10 +21,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { Link, useParams } from 'react-router-dom';
 
-export default function Product() {
+export default function Product({input}) {
   const [loading, setLoading] = React.useState(false);
 const [query, setQuery] = React.useState('idle');
 const timerRef = React.useRef();
+const iduser = localStorage.getItem("id");
 const addCart=()=>{
   fetch(`http://localhost:8080/api/v1/auth/addCart?id=3`)
   .then(res => res.json())
@@ -181,23 +182,25 @@ React.useEffect(
   return (
     
     <div>
+    <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link>
    
-    <div className='search'>
-    <Autocomplete
-    disablePortal
-    id="combo-box-demo"
-    options={rows}
-    onChange={(e, v) => setRowdata(v)}
-    sx={{ width: 700 }}
-    getOptionLabel={(rows) => rows.name || ""}
-    renderInput={(params) => (
-      <TextField {...params} label="Search Movie" size="small" />
-    )}
-  />
-  </div>
     <div className="wrap">
     <div className="price-rage">
         <h3>Weekly selection:</h3>
+        <div className='search'>
+        <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={rows}
+        
+        onChange={(e, v) => setRowdata(v)}
+        sx={{ width: 340 }}
+        getOptionLabel={(rows) => rows.name || ""}
+        renderInput={(params) => (
+          <TextField {...params}  size="small" />
+        )}
+      />
+      </div>
         <div id="slider-range">
         </div>
     </div>
@@ -278,16 +281,11 @@ React.useEffect(
                     .map((row) => {
                       return (
                         <div onclick="location.href='details.html';" className="product-grid count">
-                        <Link className='btn btn-primary' to={`/products/${row.id}`}>seen</Link>
+                        <Link className='btn ' to={`/products/${row.id}`}><img src='../images/eye.png'></img></Link>
                         <div className="product-grid-head">
-                            <ul className="grid-social">
-                                <li><a className="facebook" href="#"><span> </span></a></li>
-                                <li><a className="twitter" href="#"><span> </span></a></li>
-                                <li><a className="googlep" href="#"><span> </span></a></li>
-                                <div className="clear"> </div>
-                            </ul>
+                            
                             <div className="block">
-                                <div className="starbox small ghosting" > </div> <span> (46)</span>
+                                <div className="starbox small ghosting" > </div> <span> (46) Feedback</span>
                             </div>
                         </div>
                         <div className="product-pic">
@@ -299,10 +297,10 @@ React.useEffect(
                         </div>
                         <div className="product-info">
                             <div className="product-info-cust">
-                                <a href="details.html">Details</a>
+                            <Link className='btn ' to={`/products/${row.id}`}>Details</Link>
                             </div>
                             <div className="product-info-price">
-                                <a href="details.html">&#163; 380</a>
+                                <a href="details.html">&#163; {row.price}</a>
                             </div>
                             <div className="clear"> </div>
                         </div>

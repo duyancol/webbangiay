@@ -10,7 +10,103 @@ import { Helmet } from 'react-helmet';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import MegaMenu from '../layout/MegaMenu';
-function Cart({cartItems,onRemoveCartItem,setCartItems,oder}) {
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import TextArea from 'antd/es/input/TextArea';
+import { Label } from '@mui/icons-material';
+import { useRef } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import { useNavigate } from 'react-router-dom';
+// Khai báo ref cho các input
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTotalPrice,setCartItemCount}) {
+  const [open, setOpen] = React.useState(false);
+  const [userID, setUserID] = React.useState(localStorage.getItem("id"));
+  const [name, setName] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [derection, setDerection] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [openf, setOpenf] = React.useState(false);
+  let navigate=useNavigate();
+  const handleClickOpenf = () => {
+    setOpenf(true);
+  };
+
+  const handleClosef = () => {
+    setOpenf(false);
+
+  };
+  const handlesavef = () => {
+    localStorage.removeItem("cartItems")
+        setCartItems([]);
+        setCartItemCount(prevCount => prevCount - prevCount);
+    navigate("/")
+    
+  };
+  
+ 
+  const [userForm, setUserForm] = React.useState({
+    userID: localStorage.getItem("id"),
+    address: "",
+    status: "0",
+    price: getTotalPrice,
+    phone:""
+   
+  });
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    setUserForm(prevState => ({
+      ...prevState,
+      name: event.target.value
+    }));
+  };
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
+    setUserForm(prevState => ({
+      ...prevState,
+      phone: event.target.value
+    }));
+  };
+  const handleDerectionChange = (event) => {
+    setDerection(event.target.value);
+   
+  };
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+    setUserForm(prevState => ({
+      ...prevState,
+      address: event.target.value
+    }));
+  };
+
+  
+  
+  
+ 
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const { cartItems } = props;
   const test = () => {
     alert(localStorage.getItem('cartItems'))
@@ -30,17 +126,28 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder}) {
     setCartItems(updatedCart);
     localStorage.setItem('cartItems', JSON.stringify(updatedCart));
   };
-    const saveCart = () => {
-    axios.post("http://localhost:8080/api/v1/auth/save", oder)
+  const [orderNew, setOrderNew] = React.useState();
+
+  const saveCart = () => {
+    if (!userID || !address) {
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
+    setUserForm(prevState => ({
+      ...prevState,
+      
+      address
+    }));
+    axios.post("http://localhost:8080/api/v1/auth/save", {cart: userForm, listProduct: cartItems})
       .then((response) => {
         console.log(response.data);
         alert("Đã lưu giỏ hàng thành công!");
-        localStorage.removeItem("cartItems")
-        setCartItems([]);
+        handleClickOpenf();
+        
       })
       .catch((error) => {
         console.log(error);
-        alert("Lưu giỏ hàng thất bại!" +    "           "+ cartItems);
+        alert("Lưu giỏ hàng thất bại!");
       });
   };
   const handleQuantityChange = (event, product) => {
@@ -60,8 +167,138 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder}) {
   };
   return (
     <div>
-    <Header />
+    <Header cartItemCount={cartItemCount} />
     <MegaMenu></MegaMenu>
+    <Dialog
+    fullScreen
+    open={openf}
+    onClose={handleClosef}
+    TransitionComponent={Transition}
+  >
+    <AppBar sx={{ position: 'relative' }}>
+      <Toolbar>
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={handleClosef}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
+        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+          Sound
+        </Typography>
+        <Button autoFocus color="inherit" onClick={handlesavef}>
+          Authen
+        </Button>
+      </Toolbar>
+    </AppBar>
+    <div className='center_c'>
+    <List>
+      <h1  className='h1c'>Order</h1>
+      <div >
+      <h2 className='h2c'>Customer Information</h2>
+      <ListItem button>
+        <ListItemText primary={name} secondary="Name" />
+      </ListItem>
+      <ListItem button>
+      <ListItemText primary={userForm.address} secondary="Address" />
+    </ListItem>
+    <ListItem button>
+        <ListItemText primary={phone} secondary="Phone" />
+      </ListItem>
+      <ListItem button>
+      <ListItemText primary={derection} secondary="Derection" />
+    </ListItem>
+      <ListItem button>
+      <ListItemText primary={getTotalPrice} secondary="Total Price" />
+    </ListItem>
+   <h2 className='h2c'>Product information</h2>
+    <ListItem>
+    
+    {cartItems.map(item => (
+      <div class="cart-item" id="item">
+        <img src={"../"+item.img} alt="" />
+        <p>{item.name}</p>
+        <p>${item.price}</p>
+        <input
+        type="number"
+        min="1"
+        value={item.quantity}
+       
+      />
+        
+      </div>
+      
+      ))}
+      </ListItem>
+      </div>
+      
+      
+      
+      <Divider />
+      <ListItem button>
+        <ListItemText
+          primary="Default notification ringtone"
+          secondary="Tethys"
+        />
+      </ListItem>
+    </List>
+    </div>
+  </Dialog>
+      <Dialog open={open} onClose={handleClose}>
+      <DialogTitle>Oder</DialogTitle>
+      <DialogContent>
+      <TextField
+      autoFocus
+      margin="dense"
+      id="name"
+      label="Name"
+      type="text"
+      fullWidth
+      variant="standard"
+      value={name} onChange={handleNameChange}
+    /> 
+    <TextField
+      autoFocus
+      margin="dense"
+      id="address"
+      label="Adress"
+      type="text"
+      fullWidth
+      variant="standard"
+      value={address} onChange={handleAddressChange}
+    /> 
+    <TextField
+      autoFocus
+      margin="dense"
+      id="phone"
+      label="Phone"
+      type="text"
+      fullWidth
+      variant="standard"
+      value={phone} onChange={handlePhoneChange}
+    /> 
+    <label>Derection</label><br></br>
+
+    <TextArea
+    autoFocus
+    margin="dense"
+    id="derection"
+    label="Phone"
+    type="text"
+    fullWidth
+    variant="standard"
+    value={derection} onChange={handleDerectionChange}
+  /> 
+    
+      
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={saveCart}>Subscribe</Button>
+      </DialogActions>
+    </Dialog>
     <Helmet>
     <link rel="stylesheet" href="../css/checkout.css" />
     <link
@@ -130,9 +367,9 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder}) {
               </div>
             </div>
           </div>
-          <h3 className='h3'>Totals &nbsp; &nbsp; $1000</h3>
+          <h3 className='h3'>Totals &nbsp; &nbsp; ${getTotalPrice}</h3>
           <div class="buttons">
-            <a class="button-checkout" onClick={() => saveCart()}>Checkout</a>
+            <a class="button-checkout" onClick={() =>handleClickOpen()}>Checkout</a>
             <a class="cancel" href="/">Continue Shopping</a>
           </div>
         </div>

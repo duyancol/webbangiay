@@ -9,7 +9,8 @@ import Demo from '../Demo';
 import { Link } from 'react-router-dom';
 import '../css/style.css';
 import '../css/test.css';
-export default function Home() {
+export default function Home({cartItemCount}) {
+  const input ="àdsfd";
     const[users,setUsers]=useState([]);
     useEffect(()=>{
        loadUsers();
@@ -24,11 +25,11 @@ export default function Home() {
     <>
 
    
-     <Header />
+     <Header cartItemCount={cartItemCount} />
      <MegaMenu></MegaMenu>
    
    
-    <Product/>
+    <Product input={input}/>
     <Footer></Footer>
     </>
   )
