@@ -1,0 +1,154 @@
+
+
+
+
+.row1 {
+    display: flex;
+    flex-direction: row;
+}
+
+.row1>.col2 {
+    width: 55%;
+    
+    
+}
+
+.row1>.col1 {
+    
+    width: 45%;
+    text-align: right;
+}
+
+.col1>img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 7px;
+    width: 100%;
+    margin: auto;
+    
+}
+
+.row1>div {
+    margin: 20px;
+}
+
+.col2>h1 {
+    font-size: 3vw;
+}
+
+.col2>p {
+    margin-right: 10%;
+    text-align: justify;
+    font-size: 1.5vw;
+    line-height: 1.3em;
+}
+
+select {
+    font-size: 1vw;
+    width: auto;
+    margin-left: 1em;
+}
+
+
+
+h2 {
+    font-size: 1.5vw;
+}
+
+.button-cart {
+    padding: 6px 15px 6px 15px;
+    color: white;
+    background-color: #000;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 16px;
+    text-decoration: none;
+}
+
+.button-cart:hover {
+    background-color: white;
+    color: #000;
+    border: 1px solid black;
+}
+
+.wishlist {
+    text-decoration: none;
+    color: #555555;
+}
+
+.wishlist:hover {
+    color: #000;
+}
+
+video {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    display:block; margin:30px auto; width: 70%;
+}
+
+video:focus {
+    outline: none;
+}
+.h1{
+   text-align: center;
+   display: block;
+   margin-block-start: 0.83em;
+   margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    height: 100%;
+    margin: 0;
+    font-family: 'Montserrat';
+    overflow-x: hidden;
+    color: aliceblue;
+}
+.h{
+    color: red;
+
+}
+
+
+
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    color: rgb(182, 191, 10);
+}
+.row1{
+    width: 70%;
+    
+    margin: auto;
+}
+.hc1{
+    font-size: 60px;
+    margin: 20px 0 0 35px;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    width: 90%;
+    margin-left: 5%;
+    color: aliceblue;
+}
+h5 {
+    color: aliceblue;
+    display: block;
+    font-size: 0.83em;
+    margin-block-start: 1.67em;
+    margin-block-end: 1.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    
+}
+.name-product{
+    color: rgb(182, 191, 10);
+    margin-bottom: 20px;
+}

@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 import axios from "axios"
 
 import { useNavigate } from 'react-router-dom';
+import Header from "../layout/Header";
 export default function AddProduct() {
   let navigate=useNavigate();
   
@@ -18,11 +19,12 @@ export default function AddProduct() {
   }
   const onSupmit= async(e)=>{
     e.preventDefault();
-    await axios.post("http://localhost:8080/addproduct",user)
+    await axios.post("http://localhost:8080/api/v1/auth/addproduct",user)
     navigate("/")
   }
   return (
     <div>
+    <Header></Header>
     Add product
     <form onSubmit={(e)=>onSupmit(e)}>
     <div className='mb-3'>

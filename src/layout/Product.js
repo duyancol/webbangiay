@@ -19,13 +19,28 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+import { Link, useParams } from 'react-router-dom';
 
-
-export default function Product() {
+export default function Product({input}) {
   const [loading, setLoading] = React.useState(false);
 const [query, setQuery] = React.useState('idle');
 const timerRef = React.useRef();
-
+const iduser = localStorage.getItem("id");
+const addCart=()=>{
+  fetch(`http://localhost:8080/api/v1/auth/addCart?id=3`)
+  .then(res => res.json())
+  .then(
+    (result) => {
+     console.log(result)
+    },
+    // Note: it's important to handle errors here
+    // instead of a catch() block so that we don't swallow
+    // exceptions from actual bugs in components.
+    (error) => {
+      // setIsLoaded(true);
+      // setError(error);
+    }
+  )}
 React.useEffect(
   () => () => {
     clearTimeout(timerRef.current);
@@ -55,14 +70,30 @@ React.useEffect(
         setQuery('success');
       }, 2000);
     };
+    const handleClickQuery1 = (id) => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        clickCart2(id)
+      }
+    
+      if (query !== 'idle') {
+        setQuery('idle');
+        return;
+      }
+    
+      setQuery('progress');
+      timerRef.current = window.setTimeout(() => {
+        setQuery('success');
+      }, 2000);
+    };
     // const {count}=useParams();
     const count =document.getElementsByClassName("count").length +3;
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const baseURL = "http://localhost:8080/get3ProductNew";
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const baseURL = "http://localhost:8080/api/v1/auth/get3ProductNew";
     const [rows, setRows] = useState([]);
     const [rowdata, setRowdata] = useState([]);
   
@@ -96,7 +127,7 @@ React.useEffect(
   
   
     useEffect(() => {
-      fetch("http://localhost:8080/get3ProductNew")
+      fetch("http://localhost:8080/api/v1/auth/get3ProductNew")
         .then(res => res.json())
         .then(
           (result) => {
@@ -113,7 +144,7 @@ React.useEffect(
         )
     }, [])
     const clickCart1=()=>{
-      fetch(`http://localhost:8080/getNext3Product/${count}/0`)
+      fetch(`http://localhost:8080/api/v1/auth/getNext3Product/${count}/0`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -128,24 +159,48 @@ React.useEffect(
           setError(error);
         }
       )}
+      const clickCart2=(id)=>{
+        fetch(`http://localhost:8080/api/v1/auth/addCart?id=1`,{
+          method: "POST"
+        })
+        
+        
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result)
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        )}
+        
   return (
     
     <div>
-    <div className='search'><Autocomplete
-    disablePortal
-    id="combo-box-demo"
-    options={rows}
-    onChange={(e, v) => setRowdata(v)}
-    sx={{ width: 700 }}
-    getOptionLabel={(rows) => rows.name || ""}
-    renderInput={(params) => (
-      <TextField {...params} label="Search Movie" size="small" />
-    )}
-  />
-  </div>
+    <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link>
+   
     <div className="wrap">
     <div className="price-rage">
         <h3>Weekly selection:</h3>
+        <div className='search'>
+        <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={rows}
+        
+        onChange={(e, v) => setRowdata(v)}
+        sx={{ width: 340 }}
+        getOptionLabel={(rows) => rows.name || ""}
+        renderInput={(params) => (
+          <TextField {...params}  size="small" />
+        )}
+      />
+      </div>
         <div id="slider-range">
         </div>
     </div>
@@ -212,7 +267,7 @@ React.useEffect(
                    
                     <>
       {rows ? (
-        <Card >
+        < >
          
            
           
@@ -226,15 +281,11 @@ React.useEffect(
                     .map((row) => {
                       return (
                         <div onclick="location.href='details.html';" className="product-grid count">
+                        <Link className='btn ' to={`/products/${row.id}`}><img src='../images/eye.png'></img></Link>
                         <div className="product-grid-head">
-                            <ul className="grid-social">
-                                <li><a className="facebook" href="#"><span> </span></a></li>
-                                <li><a className="twitter" href="#"><span> </span></a></li>
-                                <li><a className="googlep" href="#"><span> </span></a></li>
-                                <div className="clear"> </div>
-                            </ul>
+                            
                             <div className="block">
-                                <div className="starbox small ghosting" > </div> <span> (46)</span>
+                                <div className="starbox small ghosting" > </div> <span> (46) Feedback</span>
                             </div>
                         </div>
                         <div className="product-pic">
@@ -246,21 +297,24 @@ React.useEffect(
                         </div>
                         <div className="product-info">
                             <div className="product-info-cust">
-                                <a href="details.html">Details</a>
+                            <Link className='btn ' to={`/products/${row.id}`}>Details</Link>
                             </div>
                             <div className="product-info-price">
-                                <a href="details.html">&#163; 380</a>
+                                <a href="details.html">&#163; {row.price}</a>
                             </div>
                             <div className="clear"> </div>
                         </div>
                         <div className="more-product-info">
                             <span> </span>
                         </div>
+
+                        
                     </div>
                          
                        
                       );
                     })}
+                   
                 </div>
              
             <TablePagination
@@ -273,7 +327,7 @@ React.useEffect(
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           
-        </Card>
+        </>
       ) : (
         <h3>Loading...</h3>
       )}

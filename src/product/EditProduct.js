@@ -21,11 +21,11 @@ export default function EditProduct() {
   },[])
   const onSupmit= async(e)=>{
     e.preventDefault();
-    await axios.put(`http://localhost:8080/editProduct/${id}`,user)
+    await axios.put(`http://localhost:8080/api/v1/auth/editProduct/${id}`,user)
     navigate("/")
   }
   const loadUser =async()=>{
-    const result=await axios.get(`http://localhost:8080/getProduct/${id}`);
+    const result=await axios.get(`http://localhost:8080/api/v1/auth/getProduct/${id}`);
     setUser(result.data)
   }
 
