@@ -7,13 +7,15 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-        @Autowired
-        private UserRepository repo;
-    @Autowired   private  UserDao userDao;
-    public boolean checkLogin(String email, String password){
+    @Autowired
+    private UserRepository1 repo;
+    @Autowired
+    private UserDao userDao;
 
-        Optional<user> o=userDao.findByEmail(email);
-        if(o.isPresent() &&o.get().getPassword().equals(password)){
+    public boolean checkLogin(String email, String password) {
+
+        Optional<user> o = userDao.findByEmail(email);
+        if (o.isPresent() && o.get().getPassword().equals(password)) {
             return true;
         }
         return false;

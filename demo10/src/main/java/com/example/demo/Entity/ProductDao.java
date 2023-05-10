@@ -10,8 +10,17 @@ public interface ProductDao  extends JpaRepository<Product,Integer> {
     @Query("SELECT un FROM Product un ORDER BY un.id  LIMIT 3  ")
     List<Product> load3ProductNew();
 
+    @Query("SELECT un FROM Product un ORDER BY un.id  ")
+    List<Product> loadAllproduct();
+
     @Query(
             value = "SELECT * FROM product u ORDER BY u.id LIMIT ?1 offset ?2 ",
             nativeQuery = true)
     public List<Product> load3ProductNext(@Param("limit") int limit, @Param("ex") int count);
+
+
+    @Query(
+            value = "SELECT * FROM product where id=?1 ",
+            nativeQuery = true)
+    public Product getProductById(@Param("id") int id);
 }
