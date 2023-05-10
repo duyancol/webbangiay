@@ -9,22 +9,49 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Product {
+    @Column(length = 15,nullable = true)
+    private int quantitySol;
+    public int getQuantitySol() {
+        return quantitySol;
+    }
+
+    public void setQuantitySol(int quantitySol) {
+        this.quantitySol = quantitySol;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
     @Column(nullable = false,unique = true,length = 45)
     private String name;
-    @Column(length = 15,nullable = false)
+    @Column(length = 15,nullable = true)
     private int price;
-    @Column(length = 15,nullable = false)
+    @Column(length = 15,nullable = true)
     private int quantity;
-    @Column(length = 45,nullable = false,name = "img")
+    @Column(length = 45,nullable = true,name = "img")
     private String img;
-    @Column(length = 45,nullable = false,name = "category")
+    @Column(length = 45,nullable = true,name = "category")
     private String category;
-    @Column(length = 45,nullable = false,name = "derectory")
+    @Column(length = 45,nullable = true,name = "derectory")
     private String derectory;
+
+
+
+
+    public Product(Integer id, String name, int price, int quantity, String img, String category, String derectory) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.img = img;
+        this.category = category;
+        this.derectory = derectory;
+    }
+
+    public Product(String name, String img) {
+        this.name = name;
+        this.img = img;
+    }
 
     public Integer getId() {
         return id;
@@ -81,4 +108,6 @@ public class Product {
     public void setDerectory(String derectory) {
         this.derectory = derectory;
     }
+
+
 }

@@ -6,7 +6,7 @@ import axios from 'axios';
 import React,{useState,useEffect} from 'react'
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 //import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Demo from './Demo';
+
 import AddProduct from './product/AddProduct';
 import EditProduct  from './product/EditProduct';
 import ViewProduct from './product/ViewProduct';
@@ -29,6 +29,10 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import OrderHistory from './page/OrderHistory';
+import Register from './page/Register';
+import Dankboad from './admin/Dankboad';
+
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -139,19 +143,24 @@ const getTotalPrice = () => {
     
     <div className="App" key={user.isLogin}>  
    
+   
       <Router>
-      
+     
         <Routes>
-        
+       
           <Route exact path='/' element={<Home cartItemCount={cartItemCount}/> }> </Route>
+          
           <Route className="node"  path='/getProduct/:id' element={<ViewProduct />}></Route>
           <Route exact path='/login' element={<Login cartItemCount={cartItemCount}/>}> </Route>
+          <Route exact path='/register' element={<Register cartItemCount={cartItemCount}/>}> </Route>
           <Route exact path='/addProduct' element={<AddProduct/>}></Route>
+          
+        <Route exact path="/doakboard" element={<Dankboad></Dankboad>} />
          
-         
+       
           <Route className="node" exact path='/getProduct/:id' element={<ViewProduct />}></Route>
          
-          <Route exact path='/order/:iduser' element={<OrderHistory/>}></Route>
+          <Route exact path='/order/:iduser' element={<OrderHistory cartItemCount={cartItemCount}/>}></Route>
           
           <Route path="/products/:id" element={<ProductDetail  onAddToCart={handleAddToCart} cartItemCount={cartItemCount}  open={open} handleClose={handleClose} Alert={Alert} handleClick={handleClick} />} />
           <Route exact path='/detailProduct/:id' element={<DetailProduct/>}></Route>

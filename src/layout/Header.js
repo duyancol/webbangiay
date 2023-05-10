@@ -225,7 +225,7 @@ export default function Header({cartItemCount}) {
 
  
   return (
-                 <div>
+                 <div className='tsh'>
    
     
     <div className="header">
@@ -263,7 +263,7 @@ export default function Header({cartItemCount}) {
            
                 <ul>
                 {th!=null ?  ( <li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
-                <li> <Link className="btn btn-outline-secondary " type="submit" to="login">Login</Link> <span> </span>  <li><a href="register.html">Join</a></li></li>
+                <li> <Link className="btn btn-outline-secondary " type="submit" to="login">Login</Link> <span> </span>  <li><a href="register">Join</a></li></li>
               }
                    
                 </ul>

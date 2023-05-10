@@ -2,7 +2,7 @@ import React from 'react'
 import './menumega.css';
 export default function MegaMenu() {
   return (
-    <div>
+    <div className='ts'>
 
     <div className="mid-header" >
           

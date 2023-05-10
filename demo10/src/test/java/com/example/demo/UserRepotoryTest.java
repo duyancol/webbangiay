@@ -2,7 +2,6 @@ package com.example.demo;
 
 import com.example.demo.Entity.*;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,7 +15,7 @@ import java.util.Optional;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
 public class UserRepotoryTest {
-    @Autowired private UserRepository repo;
+    @Autowired private UserRepository1 repo;
     @Test
     public void testAddnew(){
         user u = new user();

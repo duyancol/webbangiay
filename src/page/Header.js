@@ -103,7 +103,7 @@ export default function Header() {
               }
                 
                     
-                    <li><a href="register.html">Join</a></li>
+                    <li><a href="register">Join</a></li>
                 </ul>
             </div>
             <div className="clear"> </div>

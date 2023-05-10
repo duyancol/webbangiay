@@ -14,10 +14,14 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+
 function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleClick}) {
   const [product, setProduct] = useState({});
   const { id } = useParams();
-  
+  const [value, setValue] = React.useState(4);
   useEffect(() => {
     fetch(`http://localhost:8080/api/v1/auth/getProduct/${id}`)
       .then(res => res.json())
@@ -66,11 +70,26 @@ function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleC
     
       <div className="row1">
         <div className="col1">
-          <img src={"../"+product.img} alt="" srcset="" />
+          <img src={"http://localhost:8080/images/img/"+product.img} alt="" srcset="" />
 
         </div>
         <div className="col2">
           <h1 className='name-product'>{product.name}</h1>
+          <Box
+          sx={{
+            '& > legend': { mt: 2 },
+          }}
+        >
+          
+          <Rating
+            name="simple-controlled"
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          />
+          
+        </Box>
           <p>
             The iconic Nike Free returns with more perforations and engineered
             mesh in the upper that strategically target breathability across

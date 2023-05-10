@@ -31,6 +31,8 @@ import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 // Khai báo ref cho các input
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -43,6 +45,13 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [derection, setDerection] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [openf, setOpenf] = React.useState(false);
+  const [openBR, setOpenBR] = React.useState(false);
+  const handleCloseBR = () => {
+    setOpenBR(false);
+  };
+  const handleOpenBR = () => {
+    setOpenBR(true);
+  };
   let navigate=useNavigate();
   const handleClickOpenf = () => {
     setOpenf(true);
@@ -129,6 +138,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [orderNew, setOrderNew] = React.useState();
 
   const saveCart = () => {
+    handleOpenBR()
     if (!userID || !address) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
@@ -246,9 +256,18 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     </List>
     </div>
   </Dialog>
+  
       <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Oder</DialogTitle>
       <DialogContent>
+      <Button onClick={handleOpenBR}>Show backdrop</Button>
+  <Backdrop
+    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    open={openBR}
+    onClick={handleCloseBR}
+  >
+    <CircularProgress color="inherit" />
+  </Backdrop>
       <TextField
       autoFocus
       margin="dense"

@@ -5,10 +5,10 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Spike shoes Website Template | Details :: w3layouts</title>
-		<link href="../static/css/style.css" rel='stylesheet' type='text/css' />
+		<link href="css/style.css" rel='stylesheet' type='text/css' />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 		</script>
@@ -26,7 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>	
 		<!----start-alert-scroller---->
 		<!-- start menu -->
-		<link href="../static/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 		<script type="text/javascript" src="js/megamenu.js"></script>
 		<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
 		<script src="js/menu_jquery.js"></script>
@@ -44,7 +44,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>
 		<!---//move-top-top---->
 		<!-- Owl Carousel Assets -->
-		<link href="../static/css/owl.carousel.css" rel="stylesheet">
+		<link href="css/owl.carousel.css" rel="stylesheet">
 		<script src="js/jquery-1.9.1.min.js"></script> 
 		     <!-- Owl Carousel Assets -->
 		    <!-- Prettify -->
@@ -69,6 +69,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		   <!-- //Owl Carousel Assets -->
 	</head>
 	<body>
+	[[${p.img}]]
 		<!---start-wrap---->
 			<!---start-header---->
 			<div class="header">
@@ -539,7 +540,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="col1"></div>
 										</div>
 									</div>
+									</div>
 									</li>
+
 							</ul>
 
 					</div>
@@ -559,15 +562,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</ul>
 				<!----details-product-slider--->
 				<!-- Include the Etalage files -->
-					<link rel="stylesheet" href="../static/css/etalage.css">
+					<link rel="stylesheet" href="css/etalage.css">
 					<script src="js/jquery.etalage.min.js"></script>
 				<!-- Include the Etalage files -->
 				<script>
 						jQuery(document).ready(function($){
 			
 							$('#etalage').etalage({
-								thumb_image_width: 300,
-								thumb_image_height: 400,
+								thumb_image_width: 280,
+								thumb_image_height: 200,
 								source_image_width: 900,
 								source_image_height: 1000,
 								show_hint: true,
@@ -582,14 +585,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 					});
 				</script>
+
 				<!----//details-product-slider--->
-				<div class="details-left">
-					<div class="details-left-slider">
-						<ul id="etalage">
+				<div class="details-left" >
+					<div class="details-left-slider" >
+						<ul id="etalage" >
 							<li>
-								<a href="optionallink.html">
-									<img class="etalage_thumb_image" src="images/product-slide/image1_thumb.jpg" />
-									<img class="etalage_source_image" src="images/product-slide/image1_large.jpg" />
+								<a href="optionallink.html" >
+									<img class="etalage_thumb_image"th:src="@{${p.img}}" style="width: 600px" />
+									<img class="etalage_source_image" th:src="@{${p.img}}" />
 								</a>
 							</li>
 							<li>
@@ -746,7 +750,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
        				<!-- start content_slider -->
        				<!--- start-rate---->
 							<script src="js/jstarbox.js"></script>
-							<link rel="stylesheet" href="../static/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
+							<link rel="stylesheet" href="/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
 							<script type="text/javascript">
 								jQuery(function() {
 									jQuery('.starbox').each(function() {
@@ -770,7 +774,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</script>
 							<!---//End-rate---->
 					       <div id="owl-demo" class="owl-carousel">
-				                <div class="item" onclick="location.href='details.html';">
+				                <div class="item" >
 				                	<div class="product-grid fade sproduct-grid">
 										<div class="product-pic">
 											<a href="#"><img src="images/product1.jpg" title="product-name" /></a>
@@ -793,7 +797,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										</div>
 									</div>
 				                </div>
-				                <div class="item" onclick="location.href='details.html';">
+				                <div class="item" >
 				                	<div class="product-grid fade sproduct-grid">
 										<div class="product-pic">
 											<a href="#"><img src="images/product2.jpg" title="product-name" /></a>
@@ -816,7 +820,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										</div>
 									</div>
 				                </div>
-				                <div class="item" onclick="location.href='details.html';">
+				                <div class="item" >
 				                	<div class="product-grid fade sproduct-grid">
 										<div class="product-pic">
 											<a href="#"><img src="images/product3.jpg" title="product-name" /></a>
@@ -839,7 +843,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										</div>
 									</div>
 				                </div>
-				                <div class="item" onclick="location.href='details.html';">
+				                <div class="item">
 				                	<div class="product-grid fade sproduct-grid">
 										<div class="product-pic">
 											<a href="#"><img src="images/product4.jpg" title="product-name" /></a>
@@ -862,7 +866,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										</div>
 									</div>
 				                </div>
-				                <div class="item" onclick="location.href='details.html';">
+				                <div class="item" >
 				                	<div class="product-grid fade sproduct-grid">
 										<div class="product-pic">
 											<a href="#"><img src="images/product5.jpg" title="product-name" /></a>

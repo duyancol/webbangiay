@@ -25,7 +25,6 @@ public class UserController {
     }
 
     @PostMapping ("/checkLogin")
-
     public  String checkLogin(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap modelMap){
 //        if(userBean.getEmail().equals(email) && userBean.getPassword().equals(password)){
 //            System.out.println("Login thanh cong");

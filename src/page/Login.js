@@ -447,7 +447,7 @@ export default function Login({cartItemCount}) {
                 <p className="forgot-password text-right">
                     Forgot <a href="#">password?</a>
                 </p>
-                <Button onClick={handleOpen}>Show backdrop</Button>
+                
                 <Backdrop
                   sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                   open={openSucess}

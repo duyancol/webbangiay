@@ -21,6 +21,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { Link, useParams } from 'react-router-dom';
 
+import Rating from '@mui/material/Rating';
+
 export default function Product({input}) {
   const [loading, setLoading] = React.useState(false);
 const [query, setQuery] = React.useState('idle');
@@ -178,7 +180,7 @@ React.useEffect(
             setError(error);
           }
         )}
-        
+        const [value, setValue] = React.useState(2);
   return (
     
     <div>
@@ -212,14 +214,8 @@ React.useEffect(
                     <div className="content-left-price-selection">
                         <h4>Select Price:</h4>
                         <div className="price-selection-tree">
-                        <span className="col_checkbox" >
-                                <input id="10" className="css-checkbox10" type="checkbox" />
-                                <label  className="normal" ><i for="10" name="demo_lbl_10"  className="css-label10"> </i> 400</label>
-                            </span>
-                            <span className="col_checkbox" >
-                                <input id="11" className="css-checkbox11" type="checkbox"/>
-                                <label className="active1" ><i for="11" name="demo_lbl_11"  className="css-label11"> </i>350</label>
-                            </span> 
+                        
+                            
                             <span className="col_checkbox" >
                                 <input id="12" className="css-checkbox12" type="checkbox"/>
                                 <label className="normal" ><i for="12" name="demo_lbl_12"  className="css-label12"> </i> 300</label>
@@ -283,13 +279,29 @@ React.useEffect(
                         <div onclick="location.href='details.html';" className="product-grid count">
                         <Link className='btn ' to={`/products/${row.id}`}><img src='../images/eye.png'></img></Link>
                         <div className="product-grid-head">
-                            
+                        <Box
+                        sx={{
+                          '& > legend': { mt: 2 },
+                        }}
+                      >
+                       
+                        <Rating
+                          name="simple-controlled"
+                          value={value}
+                          onChange={(event, newValue) => {
+                            setValue(newValue);
+                          }}
+                        />
+                      
+                      </Box>
                             <div className="block">
-                                <div className="starbox small ghosting" > </div> <span> (46) Feedback</span>
+                               
+                               
                             </div>
+                           
                         </div>
                         <div className="product-pic">
-                            <a href="#"><img src={row.img} title="product-name" /></a>
+                            <a href="#"><img src={"http://localhost:8080/images/img/"+row.img} title="product-name" /></a>
                             <p>
                             <a href="#"><small>Nike</small> {row.name} FG</a>
                             <span>Mens Firm-Ground Football Boot</span>
