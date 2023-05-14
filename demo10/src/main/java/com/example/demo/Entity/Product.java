@@ -47,6 +47,15 @@ public class Product {
         this.category = category;
         this.derectory = derectory;
     }
+    public Product( String name, int price, int quantity, String img, String category, String derectory) {
+
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.img = img;
+        this.category = category;
+        this.derectory = derectory;
+    }
 
     public Product(String name, String img) {
         this.name = name;

@@ -198,18 +198,12 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true  ,fetch = FetchType.EAGER)
     @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();
+//@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+//private List<CartItem> cartItems = new ArrayList<>();
+
 
     public Cart() {
     }
-// constructors, getters, setters
-
-
-  /*  public Cart(Long id, LocalDateTime createdAt, String userID, List<CartItem> cartItems) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.userID = userID;
-        this.cartItems = cartItems;
-    }*/
 
     public Cart(Long id, LocalDateTime createdAt, String userID, String address, String status, String price,String phone, List<CartItem> cartItems) {
         this.id = id;
@@ -220,6 +214,11 @@ public class Cart {
         this.price = price;
         this.phone = phone;
         this.cartItems = cartItems;
+    }
+
+    public Cart(Long id, String status) {
+        this.id = id;
+        this.status = status;
     }
 
     public String getPhone() {

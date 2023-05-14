@@ -5,6 +5,8 @@ import Home_AD from './Home_AD';
 
 import AddProduct from '../product/AddProduct';
 import Demo from './Demo';
+import Order_AD from './Order_AD';
+import Chart from './Chart';
 
 export default function Dankboad() {
    
@@ -13,8 +15,8 @@ const goToHome = () => setCurrentComponent(<Home_AD />);
   
   const goToProduct = () => setCurrentComponent(<Demo />);
   const goToAddProduct = () => setCurrentComponent(<Demo><AddProduct /></Demo>);
-
-      
+  const goToOrder = () => setCurrentComponent(<Order_AD/>);
+  const goToChart = () => setCurrentComponent(<Chart/>);
     const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
 
 allSideMenu.forEach(item=> {
@@ -69,9 +71,15 @@ const handleClickDark = (e) => {
                 <span class="text">My Store</span>
             </a>
         </li>
-        <li>
+        <li onClick={goToOrder}> 
+        <a href="#">
+        <i class="fa-brands fa-shopify fa-shake"></i>
+            <span class="text">Order</span>
+        </a>
+    </li>
+        <li onClick={goToChart}> 
             <a href="#">
-                <i class='bx bxs-doughnut-chart' ></i>
+            <i class="fa-sharp fa-solid fa-chart-pie fa-spin"></i>
                 <span class="text">Analytics</span>
             </a>
         </li>

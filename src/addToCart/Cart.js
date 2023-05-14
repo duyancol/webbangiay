@@ -73,7 +73,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [userForm, setUserForm] = React.useState({
     userID: localStorage.getItem("id"),
     address: "",
-    status: "0",
+    status: "1",
     price: getTotalPrice,
     phone:""
    
@@ -228,7 +228,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     
     {cartItems.map(item => (
       <div class="cart-item" id="item">
-        <img src={"../"+item.img} alt="" />
+        <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
         <p>{item.name}</p>
         <p>${item.price}</p>
         <input
@@ -260,7 +260,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Oder</DialogTitle>
       <DialogContent>
-      <Button onClick={handleOpenBR}>Show backdrop</Button>
+     
   <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
     open={openBR}
@@ -315,7 +315,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={saveCart}>Subscribe</Button>
+        <Button onClick={saveCart}>Order</Button>
       </DialogActions>
     </Dialog>
     <Helmet>
@@ -341,7 +341,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
           <h5>Please select the quantity below</h5>
           {cartItems.map(item => (
           <div class="cart-item" id="item">
-            <img src={"../"+item.img} alt="" />
+            <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
             <p>{item.name}</p>
             <p>${item.price}</p>
             <input

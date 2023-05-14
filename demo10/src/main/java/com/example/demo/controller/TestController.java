@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 import com.example.demo.Entity.*;
+import com.example.demo.Ex.CartNotFoundException;
 import com.example.demo.reposity.CartRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -71,7 +72,11 @@ public class TestController {
 
 
     public ResponseEntity<String> addProduct(@RequestParam("name") String name,
+                                             @RequestParam("price") int price,
+                                             @RequestParam("quantity") int quantity,
                                              @RequestParam("img") MultipartFile img,
+                                             @RequestParam("category") String category,
+                                             @RequestParam("derectory") String derectory,
                                              HttpServletRequest request) throws IOException {
 
             String fileName = fileStorageService.storeFile(img);
@@ -79,7 +84,7 @@ public class TestController {
                 .path("/images/img/")
                 .path(fileName)
                 .toUriString();
-            Product product = new Product(name, fileName);
+            Product product = new Product(name,price,quantity,fileName,category,derectory);
             productRepository.save(product);
             return ResponseEntity.ok("Thêm sản phẩm thành công!");
 
@@ -113,19 +118,60 @@ public class TestController {
     List<Product> getNext3Product(@PathVariable("count") int count,@PathVariable("limit") int limit){
         return  service1.findByName(count,limit);
     }
-    @PutMapping("/editProduct/{id}")
-    public Product editProduct(@RequestBody Product newProduct,@PathVariable("id") int id){
-        Product p = service1.findByProductId(id);
-//        model.addAttribute("p",p);
-//        System.out.println(p.getId());
+//    @PutMapping("/editProduct/{id}")
+//    public Product editProduct(@RequestBody Product newProduct,@PathVariable("id") int id){
+//        Product p = service1.findByProductId(id);
+////        model.addAttribute("p",p);
+////        System.out.println(p.getId());
+//        Product product = productRepository.findById(id).map(user->{
+//            user.setName(newProduct.getName());
+//            user.setImg(newProduct.getImg());
+//            return productRepository.save(user);
+//        }).orElseThrow(()-> new UserNotFoundException(id));
+//        return product;
+//
+//    }
+@PutMapping(value = "/editProduct/{id}", consumes = {"multipart/form-data"})
+public Product editProduct(@RequestParam("name") String name,
+                           @RequestParam("price") int price,
+                           @RequestParam("quantity") int quantity,
+
+                           @RequestParam("category") String category,
+                           @RequestParam("derectory") String derectory, @RequestPart(value = "img", required = false) MultipartFile img,@PathVariable("id") int id) {
+    Product p = service1.findByProductId(id);
+
+    if (img != null && !img.isEmpty()) {
+
+        String fileName = fileStorageService.storeFile(img);
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/images/img/")
+                .path(fileName)
+                .toUriString();
         Product product = productRepository.findById(id).map(user->{
-            user.setName(newProduct.getName());
-            user.setImg(newProduct.getImg());
+            user.setName(name);
+            user.setPrice(price);
+            user.setQuantity(quantity);
+            user.setImg(fileName);
+            user.setCategory(category);
+            user.setDerectory(derectory);
             return productRepository.save(user);
         }).orElseThrow(()-> new UserNotFoundException(id));
         return product;
+    }else{
+        Product product = productRepository.findById(id).map(user->{
+            user.setName(name);
+            user.setPrice(price);
+            user.setQuantity(quantity);
 
+            user.setCategory(category);
+            user.setDerectory(derectory);
+            return productRepository.save(user);
+        }).orElseThrow(()-> new UserNotFoundException(id));
+        return product;
     }
+
+}
+
     @DeleteMapping("deleteProduct/{id}")
     public String getDeleteById(@PathVariable("id") int id){
 if(!productRepository.existsById(id)){
@@ -260,6 +306,35 @@ if(!productRepository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(cartDto);
+    }
+    @GetMapping("/viewOrderAdmin")
+    public List<Cart> getOrderAdmin(@RequestParam("date") String date) {
+
+        return cartRepository.findAllByCreatedAtLikeS(date);
+    }
+    @GetMapping("/viewAllOrder")
+    public List<Cart> getAllOrderAdmin() {
+
+        return cartRepository.findAll();
+    }
+
+    @GetMapping("/viewChart")
+    public List<CartDto> getOrderChart(@RequestParam("date") String date) {
+
+        List<CartDto> carts = cartService.getCartsWithProductsByUserId(date);
+
+        return carts;
+    }
+    @PutMapping("/updateStatus")
+    public Cart updateStatus(@RequestParam("status") String status,@RequestParam("id") long id){
+
+        Cart cart = cartRepository.findById(id).map(c->{
+            c.setStatus(status);
+
+            return cartRepository.save(c);
+        }).orElseThrow(()-> new CartNotFoundException(id));
+        return cart;
+
     }
 
 

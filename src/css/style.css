@@ -3038,3 +3038,15 @@ span.mail a:hover{
 		#cart{
 		z-index: 10000000000;
 		}
+		#sales-chart{
+			max-width: 500px;
+			max-height: 500px;
+
+		}
+		.alert{
+			margin-left: 300px;
+			margin-bottom: 200px;
+		}
+		.btupdate{
+			background-color: #d1a618;
+		}
