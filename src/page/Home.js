@@ -9,6 +9,8 @@ import Footer from '../layout/Footer';
 import { Link } from 'react-router-dom';
 import '../css/style.css';
 import '../css/test.css';
+import FacebookComments from './FacebookComments';
+import ButtonPaypal from '../addToCart/ButtonPaypal';
 export default function Home({cartItemCount}) {
   const input ="àdsfd";
     const[users,setUsers]=useState([]);
@@ -23,8 +25,8 @@ export default function Home({cartItemCount}) {
     };
   return (
     <>
-
-   
+    
+    
      <Header cartItemCount={cartItemCount} />
      <MegaMenu></MegaMenu>
    

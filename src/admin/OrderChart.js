@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react'; 
 import Chart from 'chart.js/auto'; 
 import axios from "axios"
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ImageIcon from '@mui/icons-material/Image';
+import WorkIcon from '@mui/icons-material/Work';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+
 const SalesChart = () => { 
   const [chartData, setChartData] = useState({}); 
   const[orders,setOrder]=useState([]);
@@ -118,6 +127,11 @@ const SalesChart = () => {
             <span class="text">Download PDF</span>
         </a>
     </div>
+     
+       
+    
+      <section>
+      <div className='bentrai'>
       <form>
       <label htmlFor="date-selector">Select date : </label>
       <input
@@ -142,7 +156,52 @@ const SalesChart = () => {
               return sum + value;
             }
           }, 0).toLocaleString() : 0)}</p> 
-      </div> 
+  </div> 
+      </div>
+      
+      <div className='benphai'>
+        <h1>London</h1>
+        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <ImageIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="Total Order" secondary="Jan 9, 2023" />
+        <span>{orders.length}</span>
+      </ListItem>
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <WorkIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="Daily Total Sales" secondary="Jan 9, 2023" />
+        <span>{'$' +(chartData.datasets ? chartData.datasets[0].data.reduce((sum, value) => {
+          if (isNaN(value)) {
+            // giá trị không phải là số, bỏ qua
+            return sum;
+          }
+          else {
+            // giá trị là số, tính vào tổng
+            return sum + value;
+          }
+        }, 0).toLocaleString() : 0)}</span> 
+      </ListItem>
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <BeachAccessIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="Sale" secondary="July 20, 2014" />
+        <span>10%</span>
+      </ListItem>
+    </List>
+      </div>
+    </section>
+    
       </main>
     </div> 
   ); 

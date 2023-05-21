@@ -185,11 +185,12 @@
 // } 
 import React,{useState} from 'react'
 import Login from '../page/Login';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 export default function Header({cartItemCount}) {
   
- 
-
+  const roles = JSON.parse(localStorage.getItem('roles'));
+  let navigate=useNavigate();
     const[user,setUser]=useState({
         email:"",
         img : "",
@@ -202,6 +203,10 @@ export default function Header({cartItemCount}) {
       
       onLogout();
     }
+    const onDB = ()=>{
+      navigate("/doakboard")
+  }
+   
     const onLogout = ()=>{
         setUser({isLogin : false})
     }
@@ -262,7 +267,7 @@ export default function Header({cartItemCount}) {
             <div className="top-header-right">
            
                 <ul>
-                {th!=null ?  ( <li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
+                {th!=null ?  ( roles && roles.length > 0 && roles[0].authority === 'ADMIN' ? (<li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span><button className='button ' onClick={onDB}>Admin</button></li>):<li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
                 <li> <Link className="btn btn-outline-secondary " type="submit" to="login">Login</Link> <span> </span>  <li><a href="register">Join</a></li></li>
               }
                    

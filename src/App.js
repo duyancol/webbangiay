@@ -1,12 +1,12 @@
 import './App.css';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './layout/Navbar';
-
+import { FacebookProvider, Comments } from 'react-facebook';
 import axios from 'axios';
 import React,{useState,useEffect} from 'react'
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 //import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import AddProduct from './product/AddProduct';
 import EditProduct  from './product/EditProduct';
 import ViewProduct from './product/ViewProduct';
@@ -31,6 +31,9 @@ import MuiAlert from '@mui/material/Alert';
 import OrderHistory from './page/OrderHistory';
 import Register from './page/Register';
 import Dankboad from './admin/Dankboad';
+import ForgotPassWord from './page/ForgotPassWord';
+import ResetpassWord from './page/ResetpassWord';
+import PageNotError from './page/PageNotError';
 
 
 
@@ -138,26 +141,34 @@ const getTotalPrice = () => {
   return totalPrice;
 }
 ;
-
+const initialOptions = {
+  "client-id": "AWCcjCYC4hYJEDfetxTmTmA0G6bedlD582VsPaUC13pPFPWWKPoWR_xedN3unAHOPfGb2cjNOysE48eb",
+  currency: "USD",
+  intent: "capture",
+};
   return (
-    
+    <PayPalScriptProvider options={initialOptions}>
     <div className="App" key={user.isLogin}>  
-   
+
+    
+
    
       <Router>
      
         <Routes>
        
-          <Route exact path='/' element={<Home cartItemCount={cartItemCount}/> }> </Route>
+          <Route exact path='/' element={< Home cartItemCount={cartItemCount}/ > }> </Route>
           
           <Route className="node"  path='/getProduct/:id' element={<ViewProduct />}></Route>
+          <Route className="node"  path='/error' element={<PageNotError />}></Route>
           <Route exact path='/login' element={<Login cartItemCount={cartItemCount}/>}> </Route>
           <Route exact path='/register' element={<Register cartItemCount={cartItemCount}/>}> </Route>
           <Route exact path='/addProduct' element={<AddProduct/>}></Route>
           
         <Route exact path="/doakboard" element={<Dankboad></Dankboad>} />
          
-       
+        <Route className="node" exact path='/fogotPassWord' element={<ForgotPassWord/>}></Route>
+        <Route className="node" exact path='/reset_password/:token' element={<ResetpassWord />}></Route>
           <Route className="node" exact path='/getProduct/:id' element={<ViewProduct />}></Route>
          
           <Route exact path='/order/:iduser' element={<OrderHistory cartItemCount={cartItemCount}/>}></Route>
@@ -185,7 +196,7 @@ const getTotalPrice = () => {
      
       
     </div>
-  
+    </PayPalScriptProvider>
   );
 };
 

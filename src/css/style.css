@@ -3050,3 +3050,35 @@ span.mail a:hover{
 		.btupdate{
 			background-color: #d1a618;
 		}
+		.bentrai {
+			float: left;
+			
+			width: 50%;
+			height: 700px; /* only for demonstration, should be removed */
+			background: #ffffff;
+			padding: 20px;
+		  }
+		  
+		  /* Style the list inside the menu */
+		  nav ul {
+			list-style-type: none;
+			padding: 0;
+		  }
+		  
+		  .benphai {
+			float: left;
+			padding: 20px;
+			width: 30%;
+			background-color: #f1f1f1;
+			height: 300px; /* only for demonstration, should be removed */
+		  }
+		  .fb-comments{
+			background-color: white;
+			margin-top: 30px;
+			width: 200%;
+			border-radius: 10px;
+		  }
+		  .h1d{
+
+			color: #D2D6D5;
+		  }

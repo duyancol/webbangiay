@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import axios from "axios"
 import TableHead from '@mui/material/TableHead';
 
+
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -59,7 +60,13 @@ export default function Order_AD() {
     const [openLoad, setOpenLoad] = React.useState(false);
     const [status, setStatus] = useState(0);
     const [openAlert, setOpenAlert] = React.useState(false);
-
+    const [openBR, setOpenBR] = React.useState(false);
+    const handleCloseBR = () => {
+      setOpenBR(false);
+    };
+    const handleOpenBR = () => {
+      setOpenBR(true);
+    };
     const handleClick = () => {
       setOpenAlert(true);
     };
@@ -74,6 +81,7 @@ export default function Order_AD() {
     
     const handleStatusChangeWrapper = (id) => {
       return (event) => {
+        setOpenBR(true);
         const selectedValue = event.target.value;
         const encodedValue = encodeStatus(selectedValue);
   
@@ -83,6 +91,7 @@ export default function Order_AD() {
         axios
           .put(`http://localhost:8080/api/v1/auth/updateStatus?status=${encodedValue}&id=${id}`, { id: id, status: encodedValue })
           .then((response) => {
+            setOpenBR(false)
             setOpenAlert(true);
             handleCloseStatus();
             console.log("Đã gửi dữ liệu thành công.");
@@ -422,10 +431,10 @@ export default function Order_AD() {
           <Tooltip title="View"  onClick={() => oderDetailID(row.id)}>
           <IconButton>
           <i class="fa-solid fa-eye fa-bounce"></i>
-        </IconButton>
+           </IconButton>
         
      
-    </Tooltip>
+           </Tooltip>
          
         </TableCell>
             
@@ -583,9 +592,9 @@ export default function Order_AD() {
 </DialogContent>
 <Stack spacing={2} sx={{ width: '100%' }}>
       
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+      <Snackbar open={openAlert} autoHideDuration={2000} onClose={handleCloseAlert}>
         <Alert className="alert" onClose={handleCloseAlert} severity="success" sx={{ width: '100%' }}>
-          This is a success message!
+          This is Update Status success !
         </Alert>
       </Snackbar>
       
@@ -597,12 +606,20 @@ export default function Order_AD() {
 
 <button className='btn btupdate'  onClick={handleClickOpenStatus}>Update Status</button>
       <Dialog disableEscapeKeyDown open={openStatus} onClose={handleCloseStatus}>
-        <DialogTitle>Fill the form</DialogTitle>
+        <DialogTitle>Update Status</DialogTitle>
         <DialogContent>
+       
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBR}
+          onClick={handleCloseBR}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             
           <div>
-          <label htmlFor="status">Trạng thái:</label>
+          <label htmlFor="status">Status :</label>
           <select id="status" name="status" onChange={handleStatusChangeWrapper(orderDetail.id)} value={status} >
           {orderDetail.status == 1 ? ( <option value="wait-accept">Chờ tiếp nhận</option> ): 
           ""

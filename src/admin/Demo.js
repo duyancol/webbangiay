@@ -64,8 +64,10 @@ export default function Demo() {
   const handleOpenBR = () => {
     setOpenBR(true);
   };
+  
   const loadUsers= async () =>{
-    const result=await axios.get("http://localhost:8080/api/v1/auth/students1");
+    const result=await axios.get("http://localhost:8080/api/v1/auth/students1"
+     );
    setUsers(result.data);
     
 

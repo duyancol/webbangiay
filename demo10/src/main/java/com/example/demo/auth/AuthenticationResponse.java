@@ -21,10 +21,10 @@ private  long id;
     private String lastname;
     private String email;
     private String password;
-
+    private String resetPasswordToken;
     private Collection<? extends GrantedAuthority> roles;
 
-    public AuthenticationResponse(long id, String token, String type, String firstname, String lastname, String email, String password, Collection<? extends GrantedAuthority> roles) {
+    public AuthenticationResponse(long id, String token, String type, String firstname, String lastname, String email, String password,String resetPasswordToken, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.token = token;
         this.type = type;
@@ -32,6 +32,7 @@ private  long id;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.resetPasswordToken = resetPasswordToken;
         this.roles = roles;
     }
 
@@ -97,5 +98,13 @@ private  long id;
 
     public void setRoles(Collection<? extends GrantedAuthority> roles) {
         this.roles = roles;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 }
