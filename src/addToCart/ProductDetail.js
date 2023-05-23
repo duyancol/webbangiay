@@ -17,6 +17,7 @@ import MuiAlert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import FacebookComments from '../page/FacebookComments';
 
 function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleClick}) {
   const [product, setProduct] = useState({});
@@ -36,7 +37,10 @@ function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleC
       loader.style.display = 'none';
     }, 1000);
   }, [id]);
-
+  // useEffect(() => {
+  //   // Gọi lại mã nhúng sau mỗi lần component được ghi lại (re-render)
+  //   window.FB.XFBML.parse();
+  // });
   return (
     <div >
     <Header cartItemCount={cartItemCount} />
@@ -107,9 +111,11 @@ function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleC
           <a className="button-cart" onClick={() => onAddToCart(product)}>Add to cart</a> &nbsp;
           &nbsp;
           <Link className="wishlist" to="/">Add to wishlist</Link>
+       
         </div>
+       
       </div>
-  
+      
    
       <h1 className='h1'>Video</h1>
       <video

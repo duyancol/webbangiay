@@ -5,17 +5,27 @@ import Home_AD from './Home_AD';
 
 import AddProduct from '../product/AddProduct';
 import Demo from './Demo';
-
+import Order_AD from './Order_AD';
+import Chart from './Chart';
+import User from './User';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import FeedBack_AD from './FeedBack_AD';
 export default function Dankboad() {
    
 const [currentComponent, setCurrentComponent] = useState(<Home_AD />);
 const goToHome = () => setCurrentComponent(<Home_AD />);
-  
+let navigate=useNavigate();
   const goToProduct = () => setCurrentComponent(<Demo />);
   const goToAddProduct = () => setCurrentComponent(<Demo><AddProduct /></Demo>);
-
-      
+  const goToOrder = () => setCurrentComponent(<Order_AD/>);
+  const goToChart = () => setCurrentComponent(<Chart/>);
+  const goToUser = () => setCurrentComponent(<User/>);
+  const goToChat = () => setCurrentComponent(<FeedBack_AD></FeedBack_AD>);
+  const goToQiut = () => {navigate("/")};
     const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+ // Lấy token từ local storage hoặc từ nguồn khác
+const token = localStorage.getItem('token');
 
 allSideMenu.forEach(item=> {
 	const li = item.parentElement;
@@ -69,19 +79,25 @@ const handleClickDark = (e) => {
                 <span class="text">My Store</span>
             </a>
         </li>
-        <li>
+        <li onClick={goToOrder}> 
+        <a href="#">
+        <i class="fa-brands fa-shopify fa-shake"></i>
+            <span class="text">Order</span>
+        </a>
+    </li>
+        <li onClick={goToChart}> 
             <a href="#">
-                <i class='bx bxs-doughnut-chart' ></i>
+            <i class="fa-sharp fa-solid fa-chart-pie fa-spin"></i>
                 <span class="text">Analytics</span>
             </a>
         </li>
-        <li>
+        <li  onClick={goToChat}>
             <a href="#">
                 <i class='bx bxs-message-dots' ></i>
                 <span class="text">Message</span>
             </a>
         </li>
-        <li>
+        <li onClick={goToUser}>
             <a href="#">
                 <i class='bx bxs-group' ></i>
                 <span class="text">Team</span>
@@ -89,16 +105,16 @@ const handleClickDark = (e) => {
         </li>
     </ul>
     <ul class="side-menu">
-        <li>
+        <li >
             <a href="#">
                 <i class='bx bxs-cog' ></i>
                 <span class="text">Settings</span>
             </a>
         </li>
-        <li>
+        <li onClick={goToQiut}>
             <a href="#" class="logout">
                 <i class='bx bxs-log-out-circle' ></i>
-                <span class="text">Logout</span>
+                <span class="text">Quit</span>
             </a>
         </li>
     </ul>
@@ -133,6 +149,7 @@ const handleClickDark = (e) => {
     <div>
    
     {currentComponent}
+    
        
    
   </div>

@@ -3,6 +3,7 @@ package com.example.demo.Entity;
 import java.util.List;
 
 public class CartDto {
+    private Long id;
     private String userID;
     private String address;
     private String status;
@@ -14,13 +15,22 @@ public class CartDto {
     public CartDto() {
     }
 
-    public CartDto(String userID, String address, String status, String price,String phone, List<ProductDto> listProduct) {
+    public CartDto(Long id,String userID, String address, String status, String price,String phone, List<ProductDto> listProduct) {
+        this.id=id;
         this.userID = userID;
         this.address = address;
         this.status = status;
         this.price = price;
         this.phone=phone;
         this.listProduct = listProduct;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getPhone() {

@@ -1,6 +1,6 @@
 
-import React from 'react';
-
+import React,{useEffect, useState} from 'react';
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../css/info.css';
@@ -33,6 +33,7 @@ import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import ButtonPaypal from './ButtonPaypal';
 // Khai báo ref cho các input
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -46,6 +47,15 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [phone, setPhone] = React.useState("");
   const [openf, setOpenf] = React.useState(false);
   const [openBR, setOpenBR] = React.useState(false);
+  const [paidFor,setPaidFor]=React.useState()
+  const [error,setError]=React.useState(null)
+ 
+  if(paidFor){
+   
+  }
+  if(error){
+    alert(error)
+  }
   const handleCloseBR = () => {
     setOpenBR(false);
   };
@@ -73,7 +83,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [userForm, setUserForm] = React.useState({
     userID: localStorage.getItem("id"),
     address: "",
-    status: "0",
+    status: "1",
     price: getTotalPrice,
     phone:""
    
@@ -84,6 +94,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       ...prevState,
       name: event.target.value
     }));
+    localStorage.setItem("name", event.target.value);
   };
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
@@ -91,7 +102,9 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       ...prevState,
       phone: event.target.value
     }));
+    localStorage.setItem("phone", event.target.value);
   };
+  
   const handleDerectionChange = (event) => {
     setDerection(event.target.value);
    
@@ -102,8 +115,21 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       ...prevState,
       address: event.target.value
     }));
+    localStorage.setItem("address", event.target.value);
   };
 
+  useEffect(() => {
+    const storedName = localStorage.getItem("name");
+    const storedAddress = localStorage.getItem("address");
+    const storedPhone = localStorage.getItem("phone");
+  
+    setUserForm((prevState) => ({
+      ...prevState,
+      name: storedName,
+      address: storedAddress,
+      phone :storedPhone
+    }));
+  }, []);
   
   
   
@@ -139,14 +165,30 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
 
   const saveCart = () => {
     handleOpenBR()
-    if (!userID || !address) {
+    if ( !localStorage.getItem("address")) {
       alert("Vui lòng nhập đầy đủ thông tin!");
+      setOpenBR(false)
       return;
     }
+    if ( !localStorage.getItem("token")) {
+      alert("Please Login !");
+      setOpenBR(false)
+      return;
+    }
+    if ( localStorage.getItem("cartItems")==="[]") {
+      alert("Please add to cart !");
+      setOpenBR(false)
+      return;
+    }
+    // setUserForm(prevState => ({
+    //   ...prevState,
+      
+    //   address
+    // }));
     setUserForm(prevState => ({
       ...prevState,
-      
-      address
+      address: localStorage.getItem("address"),
+      phone:localStorage.getItem("phone")
     }));
     axios.post("http://localhost:8080/api/v1/auth/save", {cart: userForm, listProduct: cartItems})
       .then((response) => {
@@ -175,6 +217,12 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       })
     );
   };
+  const handleApprove=(orderID)=>{
+
+    setPaidFor(true)
+  
+
+  }
   return (
     <div>
     <Header cartItemCount={cartItemCount} />
@@ -228,7 +276,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     
     {cartItems.map(item => (
       <div class="cart-item" id="item">
-        <img src={"../"+item.img} alt="" />
+        <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
         <p>{item.name}</p>
         <p>${item.price}</p>
         <input
@@ -260,7 +308,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Oder</DialogTitle>
       <DialogContent>
-      <Button onClick={handleOpenBR}>Show backdrop</Button>
+     
   <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
     open={openBR}
@@ -315,7 +363,49 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={saveCart}>Subscribe</Button>
+        <Button onClick={saveCart}>Order COD</Button>
+        <PayPalButtons style={{
+          color:"silver",
+          layout:"horizontal",
+          height:40,
+          tagline:false,
+          shape:"pill"
+        }}
+        onClick={(data,actions)=>{
+          const hasAl=false;
+          if(hasAl){
+            setError(" You alrealy bought this course. Go to your account to view your list of courses")
+            return actions.reject()
+          }else{
+            return actions.resolve()
+          }
+          
+        }}
+         createOrder={(data,actions)=>{
+          return actions.order.create({
+            purchase_units :[{
+              description:"c.description",
+              amount :{
+                value:getTotalPrice
+              }
+            }]
+          })
+        }}
+        onApprove={async(data,actions)=>{
+          const order =await actions.order.capture();
+          console.log("order",order)
+          saveCart()
+          handleApprove(data.orderID);
+        }}
+        onCancel={()=>{
+
+        }}
+        onError={(err)=>{
+          setError(err)
+          console.error("PayPal Checkout Error")
+
+        }}
+        ></PayPalButtons>
       </DialogActions>
     </Dialog>
     <Helmet>
@@ -341,7 +431,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
           <h5>Please select the quantity below</h5>
           {cartItems.map(item => (
           <div class="cart-item" id="item">
-            <img src={"../"+item.img} alt="" />
+            <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
             <p>{item.name}</p>
             <p>${item.price}</p>
             <input

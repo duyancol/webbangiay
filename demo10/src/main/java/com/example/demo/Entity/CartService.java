@@ -114,7 +114,30 @@ public class CartService {
         List<ProductDto> productDtoList = cart.getCartItems().stream()
                 .map(item -> new ProductDto(item.getName(), item.getPrice(), item.getQuantity(), item.getImg()))
                 .collect(Collectors.toList());
-        return new CartDto(cart.getUserID(), cart.getAddress(), cart.getStatus(), cart.getPrice(), cart.getPhone(),productDtoList);
+        return new CartDto(cart.getId(), cart.getUserID(), cart.getAddress(), cart.getStatus(), cart.getPrice(), cart.getPhone(),productDtoList);
     }
+
+//    public List<Cart> getCartWithOrderByDate(String date) {
+//        List<Cart> cartList = cartRepository.findByOrderDateCartID(date);
+//
+//        Cart cart = cartList.get(0);
+//        List<ProductDto> productDtoList = cart.getCartItems().stream()
+//                .map(item -> new ProductDto(item.getName(), item.getPrice(), item.getQuantity(), item.getImg()))
+//                .collect(Collectors.toList());
+//        CartDto cartDto = new CartDto(cart.getId(), cart.getUserID(), cart.getAddress(), cart.getStatus(), cart.getPrice(), cart.getPhone(),productDtoList);
+//        return cartList;
+//    }
+    public List<CartDto> getCartsWithProductsByUserId(String date) {
+        List<Cart> cartList = cartRepository.findByOrderDateCartID(date);
+        List<CartDto> cartDtoList = new ArrayList<>();
+        for (Cart cart : cartList) {
+            List<ProductDto> productDtoList = cart.getCartItems().stream()
+                    .map(item -> new ProductDto(item.getName(), item.getPrice(), item.getQuantity(), item.getImg()))
+                    .collect(Collectors.toList());
+            cartDtoList.add(new CartDto(cart.getId(), cart.getUserID(), cart.getAddress(), cart.getStatus(), cart.getPrice(), cart.getPhone(), productDtoList));
+        }
+        return cartDtoList;
+    }
+
 
 }

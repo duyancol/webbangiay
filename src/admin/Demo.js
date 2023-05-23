@@ -64,8 +64,10 @@ export default function Demo() {
   const handleOpenBR = () => {
     setOpenBR(true);
   };
+  
   const loadUsers= async () =>{
-    const result=await axios.get("http://localhost:8080/api/v1/auth/students1");
+    const result=await axios.get("http://localhost:8080/api/v1/auth/students1"
+     );
    setUsers(result.data);
     
 
@@ -241,7 +243,7 @@ const handleCloseED = () => {
  
   
   <Dialog open={open} onClose={handleClose}>
-    <DialogTitle>Subscribe</DialogTitle>
+    <DialogTitle>Add Product</DialogTitle>
     <DialogContent>
       <DialogContentText>
         To add product to this website shop, please enter your email address here. We
@@ -308,13 +310,13 @@ const handleCloseED = () => {
        
         <Tooltip title="Edit" onClick={()=>editProduct(row.id)}>
         <IconButton>
-        <Link className=' ' to={`/getProduct/${row.id}`}> <i class="fa-solid fa-eye"></i></Link>
+        <Link className=' ' to={`/getProduct/${row.id}`}> <i class="fa-solid fa-eye fa-bounce"></i></Link>
         </IconButton>
       </Tooltip>
        
         <Tooltip title="Edit" onClick={()=>editProduct(row.id)}>
         <IconButton>
-        <h8 className="h8"><i class="fa-solid fa-gear"></i></h8>
+        <h8 className="h8"><i class="fa-solid fa-gear fa-spin fa-spin-reverse"></i></h8>
         </IconButton>
       </Tooltip>
           <Tooltip title="Delete" onClick={()=>deleteProduct(row.id)}>

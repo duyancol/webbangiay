@@ -1,12 +1,52 @@
-import React from 'react'
+import axios from 'axios';
+import React,{useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
+
+
+axios.interceptors.request.use(config => {
+  config.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'; // Thay thế bằng URL của Spring Boot server
+  config.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+  config.headers['Access-Control-Allow-Headers'] = '*';
+  return config;
+});
 
 export default function Home_AD() {
+    let navigate=useNavigate();
+    const [products, setProducts] = useState([]);
+
+   
+    // Tạo instance của axios và đặt header Authorization
+   
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8080/api/v1/admin/show', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+            });
+            navigate("/doakboard")
+           
+          } catch (error) {
+            
+            navigate("/error")
+          }
+        };
+    
+        fetchData();
+      }, []);
+    
+    
   return (
     <div>
+    
+    
     <main>
     <div class="head-title">
         <div class="left">
-            <h1>Dashboard</h1>
+            <h1 className='h1d'>Dashboard</h1>
             <ul class="breadcrumb">
                 <li>
                     <a href="#">Dashboard</a>
