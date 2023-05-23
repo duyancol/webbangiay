@@ -184,8 +184,8 @@ React.useEffect(
   return (
     
     <div>
-    <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link>
-   
+    <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link><br></br>
+    <Link className='btn btn-primary shopping s' to={`/feedback`}><img src='../images/message.png'></img></Link>
     <div className="wrap">
     <div className="price-rage">
         <h3>Weekly selection:</h3>

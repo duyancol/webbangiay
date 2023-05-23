@@ -10,6 +10,7 @@ import Chart from './Chart';
 import User from './User';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import FeedBack_AD from './FeedBack_AD';
 export default function Dankboad() {
    
 const [currentComponent, setCurrentComponent] = useState(<Home_AD />);
@@ -20,6 +21,7 @@ let navigate=useNavigate();
   const goToOrder = () => setCurrentComponent(<Order_AD/>);
   const goToChart = () => setCurrentComponent(<Chart/>);
   const goToUser = () => setCurrentComponent(<User/>);
+  const goToChat = () => setCurrentComponent(<FeedBack_AD></FeedBack_AD>);
   const goToQiut = () => {navigate("/")};
     const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
  // Lấy token từ local storage hoặc từ nguồn khác
@@ -89,7 +91,7 @@ const handleClickDark = (e) => {
                 <span class="text">Analytics</span>
             </a>
         </li>
-        <li>
+        <li  onClick={goToChat}>
             <a href="#">
                 <i class='bx bxs-message-dots' ></i>
                 <span class="text">Message</span>

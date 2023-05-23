@@ -34,6 +34,7 @@ import Dankboad from './admin/Dankboad';
 import ForgotPassWord from './page/ForgotPassWord';
 import ResetpassWord from './page/ResetpassWord';
 import PageNotError from './page/PageNotError';
+import FeedBack from './layout/FeedBack';
 
 
 
@@ -158,7 +159,7 @@ const initialOptions = {
         <Routes>
        
           <Route exact path='/' element={< Home cartItemCount={cartItemCount}/ > }> </Route>
-          
+          <Route className="node"  path='/feedback' element={<FeedBack />}></Route>
           <Route className="node"  path='/getProduct/:id' element={<ViewProduct />}></Route>
           <Route className="node"  path='/error' element={<PageNotError />}></Route>
           <Route exact path='/login' element={<Login cartItemCount={cartItemCount}/>}> </Route>

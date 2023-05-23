@@ -29,6 +29,7 @@ export default function Home({cartItemCount}) {
     
      <Header cartItemCount={cartItemCount} />
      <MegaMenu></MegaMenu>
+     
    
    
     <Product input={input}/>
