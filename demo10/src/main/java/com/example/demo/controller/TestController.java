@@ -39,6 +39,7 @@ public class TestController {
     @Autowired private ProductService service1;
     @Autowired private ProductRepository productRepository;
     @Autowired private UserService userService;
+    @Autowired private ProductDao productDao;
 
     @GetMapping("students1")
     List<Product> getProductAll(){
@@ -46,10 +47,16 @@ public class TestController {
         return  service1.listAllProduct();
 
     }
+    @GetMapping("/product10_20")
+    List<Product> getProductPrice10_20(){
+
+        return  productDao.findProductsInRange10_20();
+
+    }
     @Autowired ServletContext app;
     @Autowired
     private FileStorageService fileStorageService;
-    @PostMapping("/addproduct")
+
 
 //        public ResponseEntity<String> addProduct(@RequestPart("name") String name,
 //
@@ -70,7 +77,7 @@ public class TestController {
 //            }
 //        }
 
-
+    @PostMapping("/addproduct")
     public ResponseEntity<String> addProduct(@RequestParam("name") String name,
                                              @RequestParam("price") int price,
                                              @RequestParam("quantity") int quantity,
@@ -336,7 +343,17 @@ if(!productRepository.existsById(id)){
         return cart;
 
     }
+    @PutMapping("/updateStatusHuy")
+    public Cart updateStatusHuyDonhang(@RequestParam("id") long id){
 
+        Cart cart = cartRepository.findById(id).map(c->{
+            c.setStatus("0");
+
+            return cartRepository.save(c);
+        }).orElseThrow(()-> new CartNotFoundException(id));
+        return cart;
+
+    }
 
 
 }

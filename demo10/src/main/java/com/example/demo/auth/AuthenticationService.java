@@ -78,12 +78,12 @@ public class AuthenticationService {
     User user = repository.findByEmail(email)
             .orElseThrow(() -> new NotFoundException("User not found"));
 
-    Role role;
-    try {
-      role = Role.valueOf(newRole.toUpperCase()); // Chuyển đổi chuỗi thành enum Role
-    } catch (IllegalArgumentException e) {
-     e.getMessage();
-    }
+//    Role role;
+//    try {
+//      role = Role.valueOf(newRole.toUpperCase()); // Chuyển đổi chuỗi thành enum Role
+//    } catch (IllegalArgumentException e) {
+//     e.getMessage();
+//    }
 
     user.setRole(Role.valueOf(newRole)); // Gán enum Role vào trường role
     repository.save(user);
@@ -158,7 +158,7 @@ public class AuthenticationService {
       Email email1 = new Email();
       email1.setFrom("nguyenduy.30719@gmail.com");
       email1.setFromPss("iuntfgqwytqmwsvr");
-      email1.setTo("19130057@st.hcmuaf.edu.vn");
+      email1.setTo(email);
       email1.setSubject(" :");
       StringBuilder sb= new StringBuilder();
       sb.append("<p>Hello,</p>\n" +

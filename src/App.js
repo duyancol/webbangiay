@@ -139,6 +139,7 @@ const getTotalPrice = () => {
   cartItems.forEach(item => {
     totalPrice += item.price * item.quantity;
   });
+  localStorage.setItem("total",totalPrice)
   return totalPrice;
 }
 ;
@@ -148,7 +149,7 @@ const initialOptions = {
   intent: "capture",
 };
   return (
-    <PayPalScriptProvider options={initialOptions}>
+   
     <div className="App" key={user.isLogin}>  
 
     
@@ -197,7 +198,7 @@ const initialOptions = {
      
       
     </div>
-    </PayPalScriptProvider>
+  
   );
 };
 

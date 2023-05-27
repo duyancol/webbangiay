@@ -22,6 +22,12 @@ export default function EditProduct(props) {
   }
   useEffect(()=>{
     loadUser()
+    
+    
+      // Nếu tồn tại dữ liệu hình ảnh, ta sử dụng URL.createObjectURL để tạo URL tạm thời
+      
+     
+   
   },[])
   const onSupmit= async(e,id)=>{
     props.handOpenBR()
@@ -47,11 +53,23 @@ export default function EditProduct(props) {
     props.handleCloseBR()
    
   }
+  const [imageSrc, setImageSrc] = useState("");
   const loadUser =async()=>{
    
     setUser(props.product)
+    setImageSrc("http://localhost:8080/images/img/"+props.product.img);
   }
   const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageSrc(reader.result);
+      setUser(prevState => ({
+        ...prevState,
+        img: file // cập nhật 'formData.image' với tệp được chọn
+      }));
+    };
+    reader.readAsDataURL(file);
     setUser({
       ...user,
       img: e.target.files[0]
@@ -96,6 +114,7 @@ export default function EditProduct(props) {
     <div className='mb-3'>
     <label htmlFor="img">Image</label><br></br>
           <input type="file" id="img" name="img" onChange={handleFileUpload} />
+          {imageSrc && <img src={imageSrc} alt="Image Preview" />}
     </div>
     <button type='submit' className='btn btn-primary'>Submit</button>
     </form>

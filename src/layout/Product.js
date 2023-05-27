@@ -180,10 +180,35 @@ React.useEffect(
             setError(error);
           }
         )}
-        const [value, setValue] = React.useState(2);
+        const [value, setValue] = React.useState(5);
+        const [filteredProducts, setFilteredProducts] = useState([]);
+        const [priceFilter, setPriceFilter] = useState(50);
+        const [checkedItems, setCheckedItems] = useState({});
+        useEffect(() => {
+          const filtered = rows.filter(
+            (p) =>
+              p.price >= 10 &&
+              p.price <= priceFilter &&
+              (checkedItems[p.id] || Object.keys(checkedItems).length === 0)
+          );
+          setFilteredProducts(filtered);
+        }, [priceFilter, rows, checkedItems]);
+        const handlePriceChange = (e) => {
+          const value = e.target.value;
+          setPriceFilter(value);
+        };
+      
+        const handleCheckboxChange = (e) => {
+          setCheckedItems({
+            ...checkedItems,
+            [e.target.name]: e.target.checked,
+          });
+        };
   return (
     
     <div>
+  
+ 
     <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link><br></br>
     <Link className='btn btn-primary shopping s' to={`/feedback`}><img src='../images/message.png'></img></Link>
     <div className="wrap">
@@ -213,6 +238,14 @@ React.useEffect(
                 <div className="content-left-top-grid">
                     <div className="content-left-price-selection">
                         <h4>Select Price:</h4>
+                        <input
+                        type="range"
+                        min="10"
+                        max="50"
+                        value={priceFilter}
+                        onChange={handlePriceChange}
+                      />
+                      <p>Filter products with price from $10 to ${priceFilter}</p><br></br>
                         <div className="price-selection-tree">
                         
                             
@@ -272,11 +305,11 @@ React.useEffect(
             
                 
                 <div>
-                  {rows
+                  {filteredProducts
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       return (
-                        <div onclick="location.href='details.html';" className="product-grid count">
+                        <div onclick="location.href='details.html';" className="product-grid  display count">
                         <Link className='btn ' to={`/products/${row.id}`}><img src='../images/eye.png'></img></Link>
                         <div className="product-grid-head">
                         <Box
@@ -294,10 +327,7 @@ React.useEffect(
                         />
                       
                       </Box>
-                            <div className="block">
-                               
-                               
-                            </div>
+                            
                            
                         </div>
                         <div className="product-pic">
@@ -329,15 +359,7 @@ React.useEffect(
                    
                 </div>
              
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+           
           
         </>
       ) : (

@@ -140,6 +140,7 @@ export default function Cart() {
   }, []);
   return (
     <div>
+   
     <h2>Giỏ hàng</h2>
    <ul>
      {cart.map(item => (
@@ -150,6 +151,7 @@ export default function Cart() {
        </li>
      ))}
    </ul>
+ 
   </div>
   )
 }
