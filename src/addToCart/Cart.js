@@ -1,6 +1,6 @@
 
 import React,{useEffect, useState} from 'react';
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../css/info.css';
@@ -84,7 +84,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     userID: localStorage.getItem("id"),
     address: "",
     status: "1",
-    price: getTotalPrice,
+    price: "",
     phone:""
    
   });
@@ -122,12 +122,15 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     const storedName = localStorage.getItem("name");
     const storedAddress = localStorage.getItem("address");
     const storedPhone = localStorage.getItem("phone");
+    const storedTotal = localStorage.getItem("total");
   
     setUserForm((prevState) => ({
       ...prevState,
       name: storedName,
       address: storedAddress,
+      
       phone :storedPhone
+      
     }));
   }, []);
   
@@ -149,6 +152,10 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
 
   const handleRemoveCartItem = item => {
     onRemoveCartItem(item);
+    setUserForm(prevState => ({
+      ...prevState,
+      price:localStorage.getItem("total"),
+    }));
   };
   const updateCartItem = (productId, newQuantity) => {
     const updatedCart = cartItems.map((item) => {
@@ -180,15 +187,12 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       setOpenBR(false)
       return;
     }
-    // setUserForm(prevState => ({
-    //   ...prevState,
-      
-    //   address
-    // }));
+    
     setUserForm(prevState => ({
       ...prevState,
       address: localStorage.getItem("address"),
-      phone:localStorage.getItem("phone")
+      phone:localStorage.getItem("phone"),
+      price:localStorage.getItem("total")
     }));
     axios.post("http://localhost:8080/api/v1/auth/save", {cart: userForm, listProduct: cartItems})
       .then((response) => {
@@ -216,6 +220,10 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
         return item;
       })
     );
+    setUserForm(prevState => ({
+      ...prevState,
+      price:localStorage.getItem("total"),
+    }));
   };
   const handleApprove=(orderID)=>{
 
@@ -223,8 +231,14 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   
 
   }
+  const initialOptions = {
+    "client-id": "AWCcjCYC4hYJEDfetxTmTmA0G6bedlD582VsPaUC13pPFPWWKPoWR_xedN3unAHOPfGb2cjNOysE48eb",
+    currency: "USD",
+    intent: "capture",
+  };
   return (
     <div>
+    <PayPalScriptProvider options={initialOptions}>
     <Header cartItemCount={cartItemCount} />
     <MegaMenu></MegaMenu>
     <Dialog
@@ -484,7 +498,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
         </div>
       </div>
     <Footer></Footer>
-    
+    </PayPalScriptProvider>
     </div>
   );
 }

@@ -111,9 +111,9 @@ function ProductDetail({onAddToCart,cartItemCount,open,handleClose,Alert,handleC
           <a className="button-cart" onClick={() => onAddToCart(product)}>Add to cart</a> &nbsp;
           &nbsp;
           <Link className="wishlist" to="/">Add to wishlist</Link>
-       
+          <FacebookComments></FacebookComments>
         </div>
-       
+        
       </div>
       
    

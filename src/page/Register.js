@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
 import Home from "./Home";
 import Header from "../layout/Header";
-
+import { useNavigate } from 'react-router-dom';
 import Product from '../layout/Product';
 import MegaMenu from '../layout/MegaMenu';
 import Footer from '../layout/Footer';
@@ -19,6 +19,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function Register({cartItemCount}) {
+  const [error, setError] = useState("");
+  let navigate=useNavigate();
     const [open, setOpen] = React.useState(false);
     const [openSucess, setOpenSucess] = React.useState(false);
     const handleClick = () => {
@@ -58,12 +60,34 @@ export default function Register({cartItemCount}) {
   
       
       const{firstname,lastname,email,password,isLogin}=user
+      React.useEffect(() => {
+        if (password.length < 8) {
+          setError("Password must be at least 8 characters !!");
+        } else {
+          setError("");
+        }
+      }, [password]);
+      const [confirmPassword, setConfirmPassword] = useState("");
+      const [confirmPasswordError, setConfirmPasswordError] = useState("");
+      React.useEffect(() => {
+        if (confirmPassword.length < 8) {
+          setConfirmPasswordError("Password must be at least 8 characters !!");
+        } else if (confirmPassword !== password) {
+          setConfirmPasswordError("Re-entered password does not match !!");
+        } else {
+          setConfirmPasswordError("");
+        }
+      }, [confirmPassword, password]);
     const onInputChange=(e)=>{
       setUser({...user,[e.target.name]:e.target.value});
     }
     
       const register = () => {
-        handleOpen()
+        if (password.length < 8) {
+          setError("Mật khẩu phải có ít nhất 8 kí tự!");
+        } else {
+          // Xử lý submit
+          handleOpen()
   
           axios(`http://localhost:8080/api/v1/auth/register`, {
             method: "POST", 
@@ -76,7 +100,8 @@ export default function Register({cartItemCount}) {
           })
             
           .then(response => {
-              setUser({isLogin : true})
+            navigate("/login")
+             
           })
           .catch(error => {
             handleCloseS();
@@ -89,9 +114,13 @@ export default function Register({cartItemCount}) {
                  
              
           })
+        }
+        
           
        }
-  
+       const handleConfirmPasswordChange = (event) => {
+        setConfirmPassword(event.target.value);
+      };
     return (
       <div>
                      < >
@@ -146,8 +175,16 @@ export default function Register({cartItemCount}) {
                   <div className="form-group mb-2 was-validated">
                       <label className='form-label' htmlFor='password'>Password</label>
                       <input type="password" className="form-control" required placeholder="Enter password" name="password" value={password} onChange={(e)=>onInputChange(e)} />
+                      {error && <div style={{ color: "red" }}>{error}</div>}
                   </div>
-  
+                  <div className="form-group mb-2 was-validated">
+                  <label className='form-label' htmlFor='password'>Confirm Password</label>
+                  <input id="confirm-password-input" type="password" className="form-control" required placeholder="Enter password"  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange} />
+                  {confirmPasswordError && (
+                    <div style={{ color: "red" }}>{confirmPasswordError}</div>
+                  )}
+              </div>
                   <div className="form-group mb-2">
                       <div className="custom-control custom-checkbox">
                           <input type="checkbox" className="custom-control-input" id="customCheck1"  />
@@ -155,6 +192,7 @@ export default function Register({cartItemCount}) {
                       </div>
                   
                   </div>
+                 
                   <button type="submit" className="btn btn-outline-success" onClick={register}>Register</button>
                  <a href='login'> <button  className="btn btn-outline-success">Login</button></a>
                   <p className="forgot-password text-right">

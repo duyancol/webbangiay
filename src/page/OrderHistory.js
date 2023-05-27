@@ -17,6 +17,7 @@ import Header from "../layout/Header";
 import Product from '../layout/Product';
 import MegaMenu from '../layout/MegaMenu';
 import Footer from '../layout/Footer';
+import axios from 'axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -35,17 +36,52 @@ export default function OrderHistory({cartItemCount}) {
     
     setOpen(true);
   };
+  const huydonhang = (id,status) => {
+    if (status!=="1") {
+      alert("You cannot cancel your order because it is in transit !");
+    } else {
+      // Xử lý submit
+     
 
+      axios(`http://localhost:8080/api/v1/auth/updateStatusHuy?id=${id}
+      `, {
+        method: "PUT", 
+        data: {
+            id:id
+        }
+      })
+        
+      .then(response => {
+       loadOder();
+         
+      })
+      .catch(error => {
+        
+          console.log(error)
+          
+          
+         
+         
+             
+         
+      })
+    }
+    
+      
+   }
   const handleClose = () => {
     setOpen(false);
   };
     const {iduser}=useParams();
-    useEffect(() => {
-      fetch(`http://localhost:8080/api/v1/auth/order/${iduser}`)
-        .then(res => res.json())
-        .then(data => setOrder(data))
-        .catch(err => console.error(err));
+    useEffect(() => {loadOder()
+      
     }, []);
+    const loadOder = (d)=>{
+      fetch(`http://localhost:8080/api/v1/auth/order/${iduser}`)
+      .then(res => res.json())
+      .then(data => setOrder(data))
+      .catch(err => console.error(err));
+    }
     const [orderDetail, setOrderDetail] = useState([]);
     const oderDetailID = (d)=>{
       handleOpenL();
@@ -212,6 +248,9 @@ export default function OrderHistory({cartItemCount}) {
                         <h3 class="mb-0">INVOICE <span class="text-primary font-weight-bold">#{items.id}</span></h3>
                         <button type="button" class="btn btn-success"  onClick={() => oderDetailID(items.id)} >
         View Detail Order
+      </button>
+      <button type="button" class="btn btn-danger btd"  onClick={() => huydonhang(items.id,items.status)} >
+      Cancel Order
       </button>
                       </div>
                       <div class="text-end">

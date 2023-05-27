@@ -38,7 +38,14 @@ export default function AddProduct(props) {
     setUser({...user,[e.target.name]:e.target.value});
 
   }
+  const [imageSrc, setImageSrc] = React.useState("");
+
   const handleFileUpload = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageSrc(reader.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
     setUser({
       ...user,
       img: e.target.files[0]
@@ -117,6 +124,7 @@ handleOpen()
     <div className='mb-3'>
     <label htmlFor="img">Image</label><br></br>
           <input type="file" id="img" name="img" onChange={handleFileUpload} />
+          {imageSrc && <img src={imageSrc} alt="Uploaded Image" />}
     </div>
     <button type='submit' className='btn btn-primary'>Submit</button>
     </form>
