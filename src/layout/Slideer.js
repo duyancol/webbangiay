@@ -37,60 +37,60 @@ export default function Slideer() {
     className="mySwiper"
   >
   <SwiperSlide className='SwiperSlide'>
-  <Spline   scene="https://prod.spline.design/URwgfUdtO6DMGpxK/scene.splinecode" />
+  
   <div class="wrap">
  
 			<ul id="jquery-demo">
-			  <li>
-			    <a href="#slide1">
-			   
-			    </a>
-			    <div class="slider-detils">
-			    	<h3>MENS FOOT BALL <label>BOOTS</label></h3>
-			    	<span>Stay true to your team all day, every day, game day.</span>
-			    	<a class="slide-btn" href="details.html"> Shop Now</a>
-			    </div>
-			  </li>
+      <li>
+      <a href="#slide1">
+        <img src="images/tải xuống.png" alt="" class="app-logo" />
+      </a>
+      <div class="slider-detils">
+        <h3  className='h312'>MENS FOOT BALL <label  className='h312'>BOOTS</label></h3>
+        <span className='h3121'>Stay true to your team all day, every day, game day.</span>
+        <a class="slide-btn" href="details.html"> Shop Now</a>
+      </div>
+    </li>
         </ul>
         </div>
     
   </SwiperSlide>
   <SwiperSlide className='SwiperSlide'>
  
-  <Spline scene="https://prod.spline.design/uov-WRztOD-TrE1Y/scene.splinecode" />
+  
   <div class="wrap" >
  
 			<ul id="jquery-demo">
-			  <li>
-			    <a href="#slide1">
-			   
-			    </a>
-			    <div class="slider-detils">
-			    	<h3>MENS FOOT BALL <label>BOOTS</label></h3>
-			    	<span>Stay true to your team all day, every day, game day.</span>
-			    	<a class="slide-btn" href="details.html"> Shop Now</a>
-			    </div>
-			  </li>
+      <li>
+      <a href="#slide2">
+        <img src="images/slider_4.png"  alt="" class="app-logo" />
+      </a>
+      <div class="slider-detils">
+        <h3  className='h312'>MENS FOOT BALL <label  className='h312'>BOOTS</label></h3>
+        <span className='h3121'>Stay true to your team all day, every day, game day.</span>
+        <a class="slide-btn" href="details.html"> Shop Now</a>
+      </div>
+    </li>
         </ul>
         </div>
 </SwiperSlide>
     <SwiperSlide className='SwiperSlide'>
     
 
-    <Spline scene="https://prod.spline.design/VphAt67yr6ej2Awa/scene.splinecode" />
+   
     <div class="wrap">
 				
 			<ul id="jquery-demo">
-			  <li>
-			    <a href="#slide1">
-			    
-			    </a>
-			    <div class="slider-detils">
-			    	<h3>MENS FOOT BALL <label>BOOTS</label></h3>
-			    	<span>Stay true to your team all day, every day, game day.</span>
-			    	<a class="slide-btn" href="details.html"> Shop Now</a>
-			    </div>
-			  </li>
+      <li>
+      <a href="#slide3">
+        <img src="images/tải xuống.png" alt="" class="app-logo" />
+      </a>
+      <div class="slider-detils">
+        <h3 className='h312'>MENS FOOT BALL <label  className='h312'>BOOTS</label></h3>
+        <span className='h3121'>Stay true to your team all day, every day, game day.</span>
+        <a class="slide-btn" href="details.html"> Shop Now</a>
+      </div>
+    </li>
         </ul>
         </div>
     </SwiperSlide>

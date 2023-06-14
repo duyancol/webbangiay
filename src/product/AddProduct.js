@@ -26,8 +26,8 @@ export default function AddProduct(props) {
   
   const[user,setUser]=useState({
     name:"",
-    price: 0,
-    quantity: 0,
+    price: 1,
+    quantity: 1,
     img : "",
     category: "",
     derectory: ""
@@ -107,7 +107,7 @@ handleOpen()
     </div>
     <div className='mb-3'>
     <label>Price</label>
-    <input name='price' type='number' placeholder='Enter your price' className='form-control'value={price} onChange={(e)=>onInputChangeIntPrice(e)}></input>
+    <input name='price'   min="1" type='number' placeholder='Enter your price' className='form-control'value={price} onChange={(e)=>onInputChangeIntPrice(e)}></input>
     </div>
     <div className='mb-3'>
     <label>Derection</label>
@@ -115,7 +115,7 @@ handleOpen()
     </div>
     <div className='mb-3'>
     <label>Quantity</label>
-    <input name='quantity' type='number' placeholder='Enter your price' className='form-control'value={quantity} onChange={(e)=>onInputChangeIntQuantity(e)}></input>
+    <input name='quantity'   min="1" type='number' placeholder='Enter your price' className='form-control'value={quantity} onChange={(e)=>onInputChangeIntQuantity(e)}></input>
     </div>
     <div className='mb-3'>
     <label>Category</label>

@@ -75,7 +75,7 @@ React.useEffect(
     const handleClickQuery1 = (id) => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
-        clickCart2(id)
+      
       }
     
       if (query !== 'idle') {
@@ -89,7 +89,7 @@ React.useEffect(
       }, 2000);
     };
     // const {count}=useParams();
-    const count =document.getElementsByClassName("count").length +3;
+   
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
@@ -146,6 +146,7 @@ React.useEffect(
         )
     }, [])
     const clickCart1=()=>{
+      const count =document.getElementsByClassName("count").length +3;
       fetch(`http://localhost:8080/api/v1/auth/getNext3Product/${count}/0`)
       .then(res => res.json())
       .then(
@@ -161,25 +162,7 @@ React.useEffect(
           setError(error);
         }
       )}
-      const clickCart2=(id)=>{
-        fetch(`http://localhost:8080/api/v1/auth/addCart?id=1`,{
-          method: "POST"
-        })
-        
-        
-        .then(res => res.json())
-        .then(
-          (result) => {
-            console.log(result)
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            setIsLoaded(true);
-            setError(error);
-          }
-        )}
+     
         const [value, setValue] = React.useState(5);
         const [filteredProducts, setFilteredProducts] = useState([]);
         const [priceFilter, setPriceFilter] = useState(50);

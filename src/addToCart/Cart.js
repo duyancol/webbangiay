@@ -129,7 +129,9 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       name: storedName,
       address: storedAddress,
       
-      phone :storedPhone
+      phone :storedPhone,
+      price:localStorage.getItem("total")
+    
       
     }));
   }, []);

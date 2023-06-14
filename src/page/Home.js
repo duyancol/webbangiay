@@ -29,7 +29,7 @@ export default function Home({cartItemCount}) {
     
      <Header cartItemCount={cartItemCount} />
      <MegaMenu></MegaMenu>
-     
+     <Slideer></Slideer>
    
    
     <Product input={input}/>
