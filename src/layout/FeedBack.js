@@ -69,7 +69,7 @@ export default function FeedBack() {
     <div class="container-contact100">
     <div class="wrap-contact100">
     <div class="contact100-pic js-tilt" data-tilt="">
-    <img src="images/img-01.png" alt="IMG"/>
+    
     </div>
     <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

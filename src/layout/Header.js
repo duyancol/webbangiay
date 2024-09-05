@@ -183,24 +183,36 @@
 
 // }
 // } 
-import React,{useState} from 'react'
+
+import React,{useState,useEffect} from 'react'
 import Login from '../page/Login';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 export default function Header({cartItemCount}) {
   
   const roles = JSON.parse(localStorage.getItem('roles'));
   let navigate=useNavigate();
+  
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+
+  const items = [
+    "Applies to orders of $50 or more.",
+    "Returns are always free.",
+    "Limited time offer: 20% off!",
+    "Check out our new collection!"
+  ];
+  
     const[user,setUser]=useState({
         email:"",
         img : "",
         isLogin: localStorage.getItem("token")!=null,
        
       });
+
       const  logout =()=>{
       localStorage.removeItem("token");
       localStorage.removeItem("nameuser");
-      
       onLogout();
     }
     const onDB = ()=>{
@@ -227,7 +239,12 @@ export default function Header({cartItemCount}) {
 
     const th=localStorage.getItem("token");
     const  themail=localStorage.getItem("nameuser");
-
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentItemIndex(prevIndex => (prevIndex + 1) % items.length);
+      }, 3000); // Change slide every 3 seconds
+      return () => clearInterval(interval);
+    }, [items.length]);
  
   return (
                  <div className='tsh'>
@@ -253,13 +270,12 @@ export default function Header({cartItemCount}) {
             </div>
             <div className="top-header-center">
                 <div className="top-header-center-alert-left">
-                    <h3>FREE DELIVERY</h3>
+                    <h3>FREE DELIVERY : </h3>
                 </div>
                 <div className="top-header-center-alert-right">
                     <div className="vticker">
                       <ul>
-                          <li>Applies to orders of $50 or more. <label>Returns are always free.</label></li>
-                      </ul>
+                      <li className='vticker_li'>{items[currentItemIndex]}<label>{currentItemIndex === 0 && " Returns are always free."}</label></li>                      </ul>
                     </div>
                 </div>
                 <div className="clear"> </div>
@@ -267,7 +283,8 @@ export default function Header({cartItemCount}) {
             <div className="top-header-right">
            
                 <ul>
-                {th!=null ?  ( roles && roles.length > 0 && roles[0].authority === 'ADMIN' ? (<li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span><button className='button ' onClick={onDB}>Admin</button></li>):<li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
+                
+                {th!=null ?  ( roles && roles.length > 0 && roles[0].authority === 'ADMIN' ? (<li><a className='name_user_login' href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span><button className='button ' onClick={onDB}>Admin</button></li>):<li><a href="login.html">{themail}</a> <button className='button ' onClick={logout}>logout</button><span> </span></li>) :
                 <li> <Link className="btn btn-outline-secondary " type="submit" to="login">Login</Link> <span> </span>  <li><a href="register">Join</a></li></li>
               }
                    

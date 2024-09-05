@@ -73,13 +73,13 @@ export default function ForgotPassWord() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-    <span className='p'>Forgot password :</span>
-    <form onSubmit={(e)=>onSupmit(e)}>
+   
+    <form  onSubmit={(e)=>onSupmit(e)}>
    
    
-    <div className="form-group mb-2 was-validated">
+    <div className="form-group mb-2 was-validated f">
     <label htmlFor='email' className='form-label'>Email :</label>
-    <input name='email' type='email' placeholder='Enter pass' className='form-control'value={email} onChange={(e)=>onInputChange(e)}></input>
+    <input name='email' type='email' placeholder='Email ' className='form-control'value={email} onChange={(e)=>onInputChange(e)}></input>
     <div className='invalid-feedback'>
     Please Enter you Email 
     </div>

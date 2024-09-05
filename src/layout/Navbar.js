@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="wrap" >
             <div className="mid-grid-left logo "  >
               <form className="form1" >
-                <input   type="text" placeholder="  What Are You Looking for?    "  />
+                <input   type="text" placeholder="  What Are You Looking for  ?    "  />
       
               </form>
       

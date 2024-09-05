@@ -10,12 +10,14 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import AddProduct from './product/AddProduct';
 import EditProduct  from './product/EditProduct';
 import ViewProduct from './product/ViewProduct';
+
 import Header from './layout/Header';
 import Slideer from './layout/Slideer';
 import Footer from './layout/Footer';
 import Product from './layout/Product';
 import MegaMenu from './layout/MegaMenu';
 import Search from './layout/Search';
+
 import Home from './page/Home';
 import Login from './page/Login';
 import { Link } from 'react-router-dom';
@@ -35,6 +37,8 @@ import ForgotPassWord from './page/ForgotPassWord';
 import ResetpassWord from './page/ResetpassWord';
 import PageNotError from './page/PageNotError';
 import FeedBack from './layout/FeedBack';
+import Profile from './layout/Profile';
+
 
 
 
@@ -52,6 +56,14 @@ function App() {
     setUser({isLogin : false})
 }
 const [open, setOpen] = React.useState(false);
+
+
+
+
+
+
+
+
 
 const handleClick = () => {
   setOpen(true);
@@ -148,12 +160,17 @@ const initialOptions = {
   currency: "USD",
   intent: "capture",
 };
+
   return (
    
     <div className="App" key={user.isLogin}>  
-
-    
-
+   
+ 
+ 
+   
+   
+   
+  
    
       <Router>
      
@@ -172,11 +189,12 @@ const initialOptions = {
         <Route className="node" exact path='/fogotPassWord' element={<ForgotPassWord/>}></Route>
         <Route className="node" exact path='/reset_password/:token' element={<ResetpassWord />}></Route>
           <Route className="node" exact path='/getProduct/:id' element={<ViewProduct />}></Route>
+          <Route className="node" exact path='/getProFile' element={<Profile />}></Route>
          
           <Route exact path='/order/:iduser' element={<OrderHistory cartItemCount={cartItemCount}/>}></Route>
           
           <Route path="/products/:id" element={<ProductDetail  onAddToCart={handleAddToCart} cartItemCount={cartItemCount}  open={open} handleClose={handleClose} Alert={Alert} handleClick={handleClick} />} />
-          <Route exact path='/detailProduct/:id' element={<DetailProduct/>}></Route>
+          <Route exact path='/detailProduct/:id' element={<DetailProduct/> }></Route>
           <Route exact path='/editProduct/:id' element={<EditProduct/>}></Route>
           <Route path="/cart" element={
                   <Cart cartItems={cartItems} setCartItems={setCartItems}

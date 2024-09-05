@@ -34,6 +34,7 @@ import { useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import ButtonPaypal from './ButtonPaypal';
+
 // Khai báo ref cho các input
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -49,6 +50,99 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
   const [openBR, setOpenBR] = React.useState(false);
   const [paidFor,setPaidFor]=React.useState()
   const [error,setError]=React.useState(null)
+
+
+  const [cities, setCities] = useState([]);
+const [selectedCity, setSelectedCity] = useState("");
+const [districts, setDistricts] = useState([]);
+const [selectedDistrict, setSelectedDistrict] = useState("");
+const [wards, setWards] = useState([]);
+const [selectedWard, setSelectedWard] = useState("");
+
+
+useEffect(() => {
+  axios.get("http://localhost:3002/api").then((response) => {
+    setCities(response.data);
+    localStorage.setItem('City',JSON.stringify(response.data));
+    console.log()
+  });
+}, []);
+
+useEffect(() => {
+  const fetchDistricts = async () => {
+    if (selectedCity !== "") {
+      try {
+        const response = await axios.get(
+          `http://localhost:3002/open-api?selectedCity=${selectedCity}`
+        );
+        setDistricts(response.data.districts);
+      } catch (error) {
+        console.error("Lỗi:", error);
+      }
+    } else {
+      setDistricts([]);
+      setWards([]);
+    }
+  };
+
+  fetchDistricts();
+}, [selectedCity]);
+
+useEffect(() => {
+  const fetchWards = async () => {
+    if (selectedDistrict !== "") {
+      try {
+        const response = await axios.get(
+          `http://localhost:3002/open-api-se?selectedDistrict=${selectedDistrict}`
+         
+        );
+     
+        setWards(response.data.wards);
+      } catch (error) {
+        console.error("Lỗi:", error);
+      }
+    } else {
+      setWards([]);
+    }
+  };
+
+  fetchWards();
+}, [selectedDistrict]);
+
+
+const handleCityChange = (event) => {
+  const selectedCityValue = event.target.value;
+  setSelectedCity(selectedCityValue);
+  const liscity=localStorage.getItem("City");
+  const data = cities
+  
+  const foundData = data.find(item => item.code === parseInt(selectedCityValue));
+  const cityname = foundData ? foundData.name : "Not found";
+  localStorage.setItem('selectedCity', cityname);
+  setSelectedDistrict(""); // Đặt giá trị của selectedDistrict về mặc định
+  setSelectedWard("");
+};
+
+const handleDistrictChange = (event) => {
+  const setSelectedDistrictValue = event.target.value;
+  setSelectedDistrict(event.target.value);
+  const data = districts
+  
+  const foundData = data.find(item => item.code === parseInt(setSelectedDistrictValue));
+  const cityname = foundData ? foundData.name : "Not found";
+  localStorage.setItem('selectedDistrict', cityname);
+  setSelectedWard("");
+};
+const handleWardChange = (event) => {
+  const setSelectedWardtValue = event.target.value;
+  setSelectedWard(event.target.value);
+  const data = wards
+  
+  const foundData = data.find(item => item.code === parseInt(setSelectedWardtValue));
+  const cityname = foundData ? foundData.name : "Not found";
+  localStorage.setItem('selectedWards', cityname);
+ 
+};
  
   if(paidFor){
    
@@ -113,7 +207,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     setAddress(event.target.value);
     setUserForm(prevState => ({
       ...prevState,
-      address: event.target.value
+      address:localStorage.getItem("selectedCity")+" / " +localStorage.getItem("selectedDistrict")+" / " +localStorage.getItem("selectedWards")+" / " + event.target.value
     }));
     localStorage.setItem("address", event.target.value);
   };
@@ -127,7 +221,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     setUserForm((prevState) => ({
       ...prevState,
       name: storedName,
-      address: storedAddress,
+      address:localStorage.getItem("selectedCity")+" / " +localStorage.getItem("selectedDistrict")+" / " +localStorage.getItem("selectedWards")+" / " + storedAddress,
       
       phone :storedPhone,
       price:localStorage.getItem("total")
@@ -192,11 +286,11 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     
     setUserForm(prevState => ({
       ...prevState,
-      address: localStorage.getItem("address"),
+      address:localStorage.getItem("selectedCity")+" / " +localStorage.getItem("selectedDistrict")+" / " +localStorage.getItem("selectedWards")+" / " +localStorage.getItem("address"),
       phone:localStorage.getItem("phone"),
       price:localStorage.getItem("total")
     }));
-    axios.post("http://localhost:8080/api/v1/auth/save", {cart: userForm, listProduct: cartItems})
+    axios.post("https://shop-shoe-1-heb5.onrender.com/api/v1/auth/save", {cart: userForm, listProduct: cartItems})
       .then((response) => {
         console.log(response.data);
         alert("Đã lưu giỏ hàng thành công!");
@@ -238,8 +332,19 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     currency: "USD",
     intent: "capture",
   };
+  const handleGoogleSignInSuccess = (response) => {
+    const idToken = response.tokenId;
+   
+    localStorage.setItem('tset123',JSON.stringify(response.tokenId));
+    
+  };
+
+  const handleGoogleSignInFailure = (error) => {
+    console.error('Google Sign-In failed:', error);
+  };
   return (
     <div>
+
     <PayPalScriptProvider options={initialOptions}>
     <Header cartItemCount={cartItemCount} />
     <MegaMenu></MegaMenu>
@@ -292,7 +397,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
     
     {cartItems.map(item => (
       <div class="cart-item" id="item">
-        <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
+        <img src={"https://raw.githubusercontent.com/duyancol/shop-shoe/master/src/main/resources/static/images/img/"+item.img} alt="" />
         <p>{item.name}</p>
         <p>${item.price}</p>
         <input
@@ -342,6 +447,41 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
       variant="standard"
       value={name} onChange={handleNameChange}
     /> 
+    <div className='choose_select'>
+    <h1>Choose Address </h1>
+    <select value={selectedCity} onChange={handleCityChange}>
+      <option value="">Chọn tỉnh thành</option>
+      {cities.map((city) => (
+        <option key={city.code} value={city.code}>
+          {city.name}
+        </option>
+      ))}
+    </select>
+    <br />
+
+    <div className='choose'>
+    <select value={selectedDistrict} onChange={handleDistrictChange}>
+      <option value="">Chọn quận huyện</option>
+      {districts.map((district) => (
+        <option key={district.code} value={district.code}>
+          {district.name}
+        </option>
+      ))}
+    </select>
+    <br />
+
+    <select value={selectedWard} onChange={handleWardChange} >
+      <option value="">Chọn phường xã</option>
+      {wards.map((ward) => (
+        <option key={ward.code} value={ward.code}>
+          {ward.name}
+        </option>
+      ))}
+    </select>
+    </div>
+
+    
+  </div>
     <TextField
       autoFocus
       margin="dense"
@@ -447,7 +587,7 @@ function Cart({cartItems,onRemoveCartItem,setCartItems,oder,cartItemCount,getTot
           <h5>Please select the quantity below</h5>
           {cartItems.map(item => (
           <div class="cart-item" id="item">
-            <img src={"http://localhost:8080/images/img/"+item.img} alt="" />
+            <img src={"https://raw.githubusercontent.com/duyancol/shop-shoe/master/src/main/resources/static/images/img/"+item.img} alt="" />
             <p>{item.name}</p>
             <p>${item.price}</p>
             <input

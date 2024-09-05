@@ -146,20 +146,16 @@ section .color:nth-child(3){
 
     /* backdrop-filter: blur(5px);
     border-top: 1px solid rgba(255, 255, 255, 0.5); */
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(240, 232, 76, 0.5);
     transform: skewX(45deg) translateX(350px);
-    transition: 0.5s;
+    transition: 2s;
 }
 .product-grid:hover::before{
    
     transform: skewX(45deg) translateX(-350px);
    
 }
-.product-grid .product-pic a img:hover{
-    transform: rotateZ(30deg);
-    transition: 1s;
-  
-}
+
 
 .button {
   display: inline-block;

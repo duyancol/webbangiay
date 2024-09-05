@@ -10,11 +10,12 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Card from "@mui/material/Card";
 import axios from "axios";
+import Modal from "react-modal";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-
+import gifFile from '../images/voice_listen.gif';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,7 +23,8 @@ import Typography from '@mui/material/Typography';
 import { Link, useParams } from 'react-router-dom';
 
 import Rating from '@mui/material/Rating';
-
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import useClipboard from "react-use-clipboard";
 export default function Product({input}) {
   const [loading, setLoading] = React.useState(false);
 const [query, setQuery] = React.useState('idle');
@@ -95,15 +97,23 @@ React.useEffect(
     // similar to componentDidMount()
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const baseURL = "http://localhost:8080/api/v1/auth/get3ProductNew";
+    const baseURL = "https://shop-shoe-1-heb5.onrender.com/api/v1/auth/get3ProductNew";
     const [rows, setRows] = useState([]);
     const [rowdata, setRowdata] = useState([]);
   
     useEffect(() => {
-      axios.get(baseURL).then((response) => {
-        setRows(response.data);
-      });
-    }, []);
+  axios.get(baseURL)
+    .then((response) => {
+      setRows(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}, []);
+
+
+
+  
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -129,7 +139,7 @@ React.useEffect(
   
   
     useEffect(() => {
-      fetch("http://localhost:8080/api/v1/auth/get3ProductNew")
+      fetch("https://shop-shoe-1-heb5.onrender.com/api/v1/auth/get3ProductNew")
         .then(res => res.json())
         .then(
           (result) => {
@@ -147,7 +157,7 @@ React.useEffect(
     }, [])
     const clickCart1=()=>{
       const count =document.getElementsByClassName("count").length +3;
-      fetch(`http://localhost:8080/api/v1/auth/getNext3Product/${count}/0`)
+      fetch(`https://shop-shoe-1-heb5.onrender.com/api/v1/auth/getNext3Product/${count}/0`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -187,29 +197,208 @@ React.useEffect(
             [e.target.name]: e.target.checked,
           });
         };
+        const [isListening, setListening] = useState(false);
+  const [recognitionText, setRecognitionText] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [inputText, setInputText] = useState("12345");
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+  const products = [
+    { id: 1, name: 'Product 1' },
+    { id: 2, name: 'Product 2' },
+    { id: 3, name: 'Product 3' },
+  ];
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    const results = rows.filter(
+      (product) =>
+        product.name.toLowerCase().includes(value.toLowerCase()) 
+    );
+    if(document.getElementById("ser")!==""){
+      setFilteredProducts(results)
+    }
+    if(document.getElementById("ser")==="Z"){
+      setFilteredProducts(rows)
+    }
+    
+      setSearchResults(rows);
+    
+  };
+  const search = (term) => {
+   
+    const results = rows.filter(
+      (product) =>
+        product.name.toLowerCase().includes(term.toLowerCase()) 
+    );
+    if (results.length > 0) {
+      speak(`Tìm thấy ${results.length} kết quả`);
+    
+    } else {
+      speak('Không có sản phẩm liên quan ');
+    }
+    setFilteredProducts(results)
+   
+  };
+  
+  const handleSelect = (product) => {
+    setSearchTerm(product.name);
+     setSearchResults([]);
+     search(product.name)
+    setIsInputFocused(false);
+  };
+
+
+  const startListening = () => {
+    resetTranscript();
+    setListening(true);
+    setInputText("");
+    setRecognitionText("");
+    setModalIsOpen(true);
+    SpeechRecognition.startListening({ continuous: true, language: 'vi-VN' });
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleRecognitionEnd = () => {
+    setModalIsOpen(false);
+    setListening(false);
+  };
+
+  useEffect(() => {
+    let timeoutId;
+    if (isListening && transcript) {
+      setRecognitionText(transcript);
+      timeoutId = setTimeout(() => {
+        SpeechRecognition.stopListening();
+        stopListeningAndCloseModal();
+        setSearchTerm(recognitionText)
+        search(recognitionText)
+        setListening(false);
+      }, 2000);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [transcript, isListening]);
+  const stopListeningAndCloseModal = () => {
+    SpeechRecognition.stopListening();
+    setListening(false);
+    setModalIsOpen(false);
+  };
+  useEffect(() => {
+    if (transcript) {
+      setRecognitionText(transcript);
+      setInputText(transcript);
+    }
+  }, [transcript]);
+  if (!browserSupportsSpeechRecognition) {
+    return null;
+  }
+  const inputProps = {
+    step: 300,
+  };
+  const handleKeyDown = (event) => {
+    if (event.target.value === '') {
+      setSearchResults(rows);
+    }
+  };
+  const speak = (text) => {
+    const speech = new SpeechSynthesisUtterance();
+    speech.text = text;
+    speech.lang = 'en-US';
+    window.speechSynthesis.speak(speech);
+  };
   return (
     
     <div>
+    
+    <div className="container">
+    
+
+    <Modal
+    isOpen={modalIsOpen}
+    onRequestClose={closeModal}
+    contentLabel="Listening Modal"
+    style={{
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      },
+      content: {
+        width: '400px',
+        height: '270px',
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    }}
+  >
+    <div><img className='gif' src={gifFile}  alt="Gif" /></div>
+    
+    <p>{recognitionText}</p>
+  </Modal>
   
+
+    
+  </div>
  
-    <Link className='btn btn-primary shopping' to={`/order/${iduser}`}><img src='../images/shopping-bag.png'></img></Link><br></br>
-    <Link className='btn btn-primary shopping s' to={`/feedback`}><img src='../images/message.png'></img></Link>
+  
     <div className="wrap">
     <div className="price-rage">
         <h3>Weekly selection:</h3>
         <div className='search'>
-        <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={rows}
-        
-        onChange={(e, v) => setRowdata(v)}
-        sx={{ width: 340 }}
-        getOptionLabel={(rows) => rows.name || ""}
-        renderInput={(params) => (
-          <TextField {...params}  size="small" />
+       
+        <div>
+        <div className="mid-header" >
+       
+    <div className="wrap" >
+   
+        <div className="mid-grid-left logo mid-grid-left1"  >
+      
+          
+          <input
+        id='ser'
+          type="text"
+          value={searchTerm}
+          onChange={handleSearch}
+         
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
+          placeholder="       Search for a product"
+        />
+        {searchResults.length > 0 && (
+          <div className="search-results-container">
+            <ul className="search-results-list">
+              {filteredProducts.map((product) => (
+                <li
+                  key={product.id}
+                  onClick={() => handleSelect(product)}
+                  onMouseDown={(event) => event.preventDefault()}
+                >
+                  {product.name}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
-      />
+       
+        <button className='btn btn-primary btn_voice' onClick={startListening}><i class="fa-solid fa-microphone"></i></button>
+        </div></div>
+      </div>
+       
+    
+       
+     
+       
+      </div>
       </div>
         <div id="slider-range">
         </div>
@@ -287,14 +476,20 @@ React.useEffect(
            
             
                 
-                <div>
+                <div  className="product-grid-center">
                   {filteredProducts
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       return (
                         <div onclick="location.href='details.html';" className="product-grid  display count">
+                        {row.quantity>0 ? ( 
+                           <></>
+                         
+                             ):<div className="product-grid1"> <img src={"https://shop-shoe-1-heb5.onrender.com/images/img/sold-removebg-preview (1).png"} ></img></div>}
+                       
                         <Link className='btn ' to={`/products/${row.id}`}><img src='../images/eye.png'></img></Link>
                         <div className="product-grid-head">
+                        
                         <Box
                         sx={{
                           '& > legend': { mt: 2 },
@@ -303,20 +498,20 @@ React.useEffect(
                        
                         <Rating
                           name="simple-controlled"
-                          value={value}
+                          value={row.reportStart}
                           onChange={(event, newValue) => {
                             setValue(newValue);
                           }}
                         />
                       
                       </Box>
-                            
+                     
                            
                         </div>
                         <div className="product-pic">
-                            <a href="#"><img src={"http://localhost:8080/images/img/"+row.img} title="product-name" /></a>
+                            <a href="#"><img src={"https://raw.githubusercontent.com/duyancol/shop-shoe/master/src/main/resources/static/images/img/"+row.img} title="product-name" /></a>
                             <p>
-                            <a href="#"><small>Nike</small> {row.name} FG</a>
+                            <a href="#"><small></small> {row.name} </a>
                             <span>Mens Firm-Ground Football Boot</span>
                             </p>
                         </div>
@@ -386,6 +581,12 @@ React.useEffect(
         <div className="clear"> </div>
     </div>
 </div> 
+<div className='btn-list-oder'>
+   
+<Link className='btn btn-primary shopping s t' to={`/order/${iduser}`}><img src='../images/clock.png'></img></Link><br></br>
+
+<Link className='btn btn-primary shopping s t' to={`/getProFile`}><img src='../images/user.png'></img></Link>
+</div>
     </div>
   )
 }

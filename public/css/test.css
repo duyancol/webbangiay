@@ -200,3 +200,18 @@ section .color:nth-child(3){
   opacity: 1;
   right: 0;
 }
+.het_hang {
+	font-weight: 10px;
+	width: 10%;
+		
+	}
+	.content-right {
+		position: relative;
+	  }
+	  
+	  .product-grid1 img {
+		position: absolute;
+		top: 0;
+		width: 100%;
+	  }
+	 

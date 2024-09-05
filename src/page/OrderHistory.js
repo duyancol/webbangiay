@@ -22,6 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function OrderHistory({cartItemCount}) {
+
     const [order, setOrder] = useState([]);
    
     const [open, setOpen] = React.useState(false);
@@ -72,7 +73,7 @@ export default function OrderHistory({cartItemCount}) {
   const handleClose = () => {
     setOpen(false);
   };
-    const {iduser}=useParams();
+    const iduser=localStorage.getItem("id")
     useEffect(() => {loadOder()
       
     }, []);
@@ -123,8 +124,7 @@ export default function OrderHistory({cartItemCount}) {
   
     return (
       <div>
-      <Header cartItemCount={cartItemCount}/>
-             <MegaMenu/>
+     
         {order.map((items, index) => (
           
           <div  class="container py-5 h-100">
@@ -310,7 +310,7 @@ export default function OrderHistory({cartItemCount}) {
           </div>
         
         ))}
-        <Footer></Footer>
+       
       </div>
     );
   }
