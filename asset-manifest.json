@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.09b1226b.css",
+    "main.js": "/static/js/main.e26d6e82.js",
+    "static/js/227.36f518c2.chunk.js": "/static/js/227.36f518c2.chunk.js",
+    "static/js/526.cbed41ba.chunk.js": "/static/js/526.cbed41ba.chunk.js",
+    "static/js/232.2d7f76f8.chunk.js": "/static/js/232.2d7f76f8.chunk.js",
+    "static/js/237.8c78ffe7.chunk.js": "/static/js/237.8c78ffe7.chunk.js",
+    "static/js/787.61a037a2.chunk.js": "/static/js/787.61a037a2.chunk.js",
+    "static/media/videoplayback.mp4": "/static/media/videoplayback.f645108c5f22f792b422.mp4",
+    "static/media/voice_listen.gif": "/static/media/voice_listen.4b968239ef270d2c1685.gif",
+    "static/media/UI Glassmorphism app_Onboarding Screen (Community) (5).png": "/static/media/UI Glassmorphism app_Onboarding Screen (Community) (5).b0c5bedd17898efb3868.png",
+    "static/media/nike-zoom.gif": "/static/media/nike-zoom.0060561826f027ee7794.gif",
+    "static/media/add.jpg": "/static/media/add.74173061608f3ef2baf4.jpg",
+    "static/media/image-sprit.png": "/static/media/image-sprit.0fb6030a675d977ce15c.png",
+    "static/media/image-sprit1.png": "/static/media/image-sprit1.df36381c4cf615a9bb41.png",
+    "index.html": "/index.html",
+    "main.09b1226b.css.map": "/static/css/main.09b1226b.css.map",
+    "main.e26d6e82.js.map": "/static/js/main.e26d6e82.js.map",
+    "227.36f518c2.chunk.js.map": "/static/js/227.36f518c2.chunk.js.map",
+    "526.cbed41ba.chunk.js.map": "/static/js/526.cbed41ba.chunk.js.map",
+    "232.2d7f76f8.chunk.js.map": "/static/js/232.2d7f76f8.chunk.js.map",
+    "237.8c78ffe7.chunk.js.map": "/static/js/237.8c78ffe7.chunk.js.map",
+    "787.61a037a2.chunk.js.map": "/static/js/787.61a037a2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.09b1226b.css",
+    "static/js/main.e26d6e82.js"
+  ]
+}
